@@ -1,0 +1,243 @@
+<ItemTickets>:
+    img_lef:img_lef
+    ImageLeftWidget:
+        id : img_lef
+        source: './img_profile/default-image.png'
+
+
+
+<CardSubscription>:
+    option1 : option1
+    title : title
+    list_tickets : list_tickets
+    orientation: "vertical"
+    padding: "8dp"
+    size_hint: None, 1
+    size: "380dp", "1280dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+    MDLabel:
+        id: title
+        canvas.before:
+            Color:
+                rgb: app.theme_cls.primary_color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size_hint_y: None
+        font_size: '20sp'
+        height: 40
+        theme_text_color: "Secondary"
+
+
+
+    MDSeparator:
+        height: "1dp"
+    MDBoxLayout:
+        orientation:"vertical"
+        cols:1
+        ScrollView:
+            size_hint: 1, 1
+
+            MDList:
+                id : list_tickets
+
+        MDBoxLayout:
+            size_hint: .2 , None
+            orientation:"horizontal"
+            cols: 3
+            spacing: 10
+            padding: 10
+            MDTextButton:
+                id:option1
+                text: "Option1"
+            MDTextButton:
+                id:option2
+                text: "Option2"
+            MDTextButton:
+                id:option3
+                text: "Option3"
+
+
+<Afterlogin>:
+    scroll_view : container
+    navDrawer : navDrawer
+    screenManager : screenManager
+    list_message : list_message
+
+    NavigationLayout:
+
+        ScreenManager:
+            id: screenManager
+            Screen:
+                id : screen1
+                name: 'subscriptions'
+                MDBoxLayout:
+                    orientation:'vertical'
+                    MDToolbar:
+                        title: "Entity"
+                        elevation: 10
+                        left_action_items: [['menu', lambda x: navDrawer.set_state()]]
+                    MDBoxLayout:
+                        padding:20
+                        orientation:'vertical'
+                        spacing: 10
+
+                        ScrollView:
+                            size: self.size
+
+                            GridLayout:
+                                id: container
+                                padding: [10,10,10,10]
+                                spacing: 25
+                                size_hint_x: None
+                                #row_default_height: root.height*0.1
+                                #height: self.minimum_height
+                                width: self.minimum_width
+            Screen:
+                id : screen2
+                name: 'message'
+                MDBoxLayout:
+                    orientation:'vertical'
+                    MDToolbar:
+                        title: "Entity"
+                        elevation: 10
+                        left_action_items: [['menu', lambda x: navDrawer.set_state()]]
+                        right_action_items: [["dots-vertical",  lambda x : root.back_subscriptions()], ["arrow-left", lambda x : root.back_subscriptions() ]]
+                    MDBoxLayout:
+                        padding:20
+                        orientation:'vertical'
+                        spacing: 10
+                        MDBoxLayout:
+                            size_hint_y : .86
+                            orientation:'vertical'
+                            spacing: 10
+                            ScrollView:
+                                id: list_message
+                                size_hint: 1, 1
+                                size: self.size
+
+                        MDBoxLayout:
+                            orientation:'horizontal'
+                            size_hint_y : .14
+
+                            spacing: 10
+                            canvas.before:
+                                Color:
+                                    rgba: .011, .27, 87, .10
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size[0] , 55
+                                    radius: [25,]
+                            MDLabel:
+                                text: " "
+                                size_hint: .04 ,None
+                            MDTextField:
+                                id: text_to_sent
+                                write_tab: True
+                            MDFloatingActionButton:
+                                icon: "send-outline"
+                                user_font_size: "32sp"
+                                theme_text_color: "Custom"
+                                text_color: 1,1,1,1
+                                md_bg_color: app.theme_cls.primary_color
+
+
+
+
+
+        MDNavigationDrawer:
+            id: navDrawer
+            avatar: avatar
+            namePerson: namePerson
+            idName: idName
+            email: email
+            open_file:open_file
+            orientation: "vertical"
+
+            Widget:
+                size_hint_y: None
+                height: 8
+            AnchorLayout:
+                anchor_x: "left"
+                anchor_y: "top"
+                BoxLayout:
+                    orientation: "vertical"
+                    padding: "8dp"
+                    spacing: "8dp"
+                    size_hint_y: None
+                    height:350
+
+                    AnchorLayout:
+                        anchor_x: "left"
+                        size_hint_y: None
+
+                    RelativeLayout:
+                        Image:
+                            id: avatar
+                            size_hint: None, None
+                            pos: 0, 0
+                        MDFloatingActionButton:
+                            id:open_file
+                            pos: 88, -8
+                            icon: "pencil"
+                            user_font_size: "14sp"
+                            theme_text_color: "Custom"
+                            text_color: 1,1,1,1
+                            md_bg_color: app.theme_cls.primary_color
+                    MDLabel:
+                        id: namePerson
+                        font_style: "Button"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: None
+                        height: LabelAccount.texture_size[1]
+                        MDLabel:
+                            id:LabelAccount
+                            text: "Cuenta: "
+                            font_style: "Subtitle2"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            size_hint_x: None
+                            width:55
+
+                        MDLabel:
+                            id:idName
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: None
+                        height: LabelEmail.texture_size[1]
+                        MDLabel:
+                            id:LabelEmail
+                            text: "Email: "
+                            font_style: "Subtitle2"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            size_hint_x: None
+                            width:55
+                        MDLabel:
+                            id:email
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+
+                    MDList:
+                        OneLineListItem:
+                            text: "Mis subcripciones"
+                            on_press:
+
+                        OneLineListItem:
+                            text: "Entidades"
+                            on_press:
+
+                        OneLineListItem:
+                            text: "Miembros"
+                            on_press:
+
+
+

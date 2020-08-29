@@ -1,0 +1,56 @@
+
+<MessageTextFm>:
+    data: ''
+    orientation_r: [0, 10, 10, 10]
+    colorCanvas : 0, 0, 0, .04
+    colorText : 0, 0, 1, 1
+    padding: 10
+
+    canvas.before:
+        Color:
+            rgba: root.colorCanvas
+
+        RoundedRectangle:
+            radius : root.orientation_r
+            pos: self.pos[0] , self.pos[1]
+            size: self.size
+    MDLabel:
+        text: root.data
+        theme_text_color: "Custom"
+        text_color: root.colorText
+
+<MessageImageFm>:
+    colorCanvas : 0, 0, 0, .04
+    colorText : 0, 0, 1, 1
+    orientation_r: [0, 10, 10, 10]
+    padding: 10
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, .04
+        RoundedRectangle:
+            radius : root.orientation_r
+            pos: self.pos[0] , self.pos[1]
+            size: self.size
+
+
+
+<MessageAudioFm>:
+    data: ''
+    orientation_r: [0, 10, 10, 10]
+    colorCanvas : 0, 0, 0, .04
+    colorText : 0, 0, 1, 1
+    padding: 10
+
+    canvas.before:
+        Color:
+            rgba: root.colorCanvas
+
+        RoundedRectangle:
+            radius : root.orientation_r
+            pos: self.pos[0] , self.pos[1]
+            size: self.size
+    MDButton:
+        text: root.data
+        theme_text_color: "Custom"
+        text_color: root.colorText
+
