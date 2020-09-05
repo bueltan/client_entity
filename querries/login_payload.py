@@ -16,7 +16,7 @@ def check_login(user, password):
             return id
 
 def upload_image(file_name,path):
-    base_url = Connection_endpoint.server_url + 'upload_p_image'
+    base_url = Connection_endpoint.server_http + 'upload_p_image'
     headers = {'filename': file_name}
     with open(path, 'rb') as f:
         json =requests.post(base_url, data=f, headers=headers)

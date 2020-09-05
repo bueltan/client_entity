@@ -16,7 +16,8 @@ def detect_nodes(subscription):
 
 
 def get_nodes(subscriptions):
-    nodes = {'id_code': 0, 'node2': '', 'node3': '', 'node4': ''}
+    nodes = {'id_code': '', 'node2': '', 'node3': '', 'node4': ''}
+    entity_id_code = False
     nodes_contains = detect_nodes(subscriptions)
     if nodes_contains['node4'] == True and nodes_contains['node3'] == False:
         nodes['node4'] = subscriptions
@@ -36,12 +37,14 @@ def get_nodes(subscriptions):
         nodes['node4'] = "." + subscriptions.split(".")[1]
     if nodes_contains['id_code'] == True:
         nodes['id_code'] = subscriptions.split("@")[0]
+        try:
+            s = int(nodes['id_code'])
+        except:
+            entity_id_code = True
     if nodes_contains['id_code'] == True and nodes_contains['node3'] == False :
         nodes['node2'] = "@" + subscriptions.split("@")[1]
 
-
-
-    return nodes
+    return nodes, entity_id_code
 
 def show_last_msg(payload, word):
     if payload['type'] == "text":

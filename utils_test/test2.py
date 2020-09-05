@@ -1,35 +1,16 @@
-from kivy.app import App
-from os.path import sep, expanduser, isdir, dirname
-import sys
-from kivy_garden.filebrowser import FileBrowser
+class abc:
+    a = 1
+    b = 2
+    c = 3
 
 
-class TestApp(App):
-    def build(self):
-        if sys.platform == 'win':
-            user_path = dirname(expanduser('~')) + sep + 'Documents'
-        else:
-            user_path = expanduser('~') + sep + 'Documents'
-        browser = FileBrowser(select_string='Select',
-                              favorites=[(user_path, 'Documents')],
-                              filters=['*.png','*.jpg'])
-        browser.bind(
-                    on_success=self._fbrowser_success,
-                    on_canceled=self._fbrowser_canceled
-                    )
-        return browser
+class xyz:
+    x = 4
+    y = 5
+    z = 6
 
-    def _fbrowser_canceled(self, instance):
-        print ('cancelled, Close self.')
-        self.stop()
-
-    def _fbrowser_success(self, instance):
-        print (instance.selection)
-        self.stop()
+    def sumAll(self, other):
+        print(self.x + self.y + self.z + other.a + other.b + other.c)
 
 
-
-
-
-TestApp().run()
-
+xyz.sumAll(xyz, abc)

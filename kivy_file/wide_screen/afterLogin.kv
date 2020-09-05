@@ -4,66 +4,90 @@
         id : img_lef
         source: './img_profile/default-image.png'
 
-
-
 <CardSubscription>:
-    option1 : option1
     title : title
+    tabs: tabs
     list_tickets : list_tickets
+    titleSub: titleSub
+    container_msg:container_msg
+    scroll_msg:scroll_msg
+
     orientation: "vertical"
     padding: "8dp"
     size_hint: None, 1
     size: "380dp", "1280dp"
-    pos_hint: {"center_x": .5, "center_y": .5}
-    MDLabel:
-        id: title
-        canvas.before:
-            Color:
-                rgb: app.theme_cls.primary_color
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        size_hint_y: None
-        font_size: '20sp'
-        height: 40
-        theme_text_color: "Secondary"
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: 60
+            canvas.before:
+                Color:
+                    rgb: app.theme_cls.primary_color
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius:[1,1,0,0]
+            BoxLayout:
+                padding:10
+                spacing:5
+                orientation: "vertical"
+                size_hint_x : .9
+
+                MDLabel:
+                    id: title
+                    font_size: '15sp'
+                    theme_text_color: "Custom"
+                    text_color: 1,1,1,1
+                MDLabel:
+                    id: titleSub
+                    size_hint_x: None
+                    width:100
+                    font_style: 'Subtitle1'
+                    text: 'Subscription'
+                    theme_text_color: "Secondary"
+            AnchorLayout:
+                size_hint_x : .1
+                anchor_x: "right"
+                anchor_y: "top"
+                MDIconButton:
+                    icon: "settings"
+                    user_font_size: "24sp"
+
+        MDTabs:
+            id: tabs
+            on_tab_switch: root.on_tab_switch(*args)
+            size_hint_y :None
+            height:50
+
+
+        BoxLayout:
+            id:container_msg
+            orientation: 'vertical'
+            ScrollView:
+                id:scroll_msg
+                pos: 0,0
+                size_hint: 1, 1
+                MDList:
+                    id : list_tickets
 
 
 
-    MDSeparator:
-        height: "1dp"
-    MDBoxLayout:
-        orientation:"vertical"
-        cols:1
-        ScrollView:
-            size_hint: 1, 1
-
-            MDList:
-                id : list_tickets
-
-        MDBoxLayout:
-            size_hint: .2 , None
-            orientation:"horizontal"
-            cols: 3
-            spacing: 10
-            padding: 10
-            MDTextButton:
-                id:option1
-                text: "Option1"
-            MDTextButton:
-                id:option2
-                text: "Option2"
-            MDTextButton:
-                id:option3
-                text: "Option3"
-
+<Tab>:
+<addNewItem>:
+    icon: "plus-thick"
+    user_font_size: "24sp"
+    theme_text_color: "Custom"
+    text_color: 1,1,1,1
+    md_bg_color: app.theme_cls.primary_color
 
 <Afterlogin>:
     scroll_view : container
     navDrawer : navDrawer
     screenManager : screenManager
     list_message : list_message
-
+    text_to_sent : text_to_sent
     NavigationLayout:
 
         ScreenManager:
@@ -78,9 +102,7 @@
                         elevation: 10
                         left_action_items: [['menu', lambda x: navDrawer.set_state()]]
                     MDBoxLayout:
-                        padding:20
                         orientation:'vertical'
-                        spacing: 10
 
                         ScrollView:
                             size: self.size
@@ -88,7 +110,7 @@
                             GridLayout:
                                 id: container
                                 padding: [10,10,10,10]
-                                spacing: 25
+                                spacing: 10
                                 size_hint_x: None
                                 #row_default_height: root.height*0.1
                                 #height: self.minimum_height
@@ -103,6 +125,7 @@
                         elevation: 10
                         left_action_items: [['menu', lambda x: navDrawer.set_state()]]
                         right_action_items: [["dots-vertical",  lambda x : root.back_subscriptions()], ["arrow-left", lambda x : root.back_subscriptions() ]]
+
                     MDBoxLayout:
                         padding:20
                         orientation:'vertical'
@@ -119,7 +142,6 @@
                         MDBoxLayout:
                             orientation:'horizontal'
                             size_hint_y : .14
-
                             spacing: 10
                             canvas.before:
                                 Color:
@@ -132,6 +154,7 @@
                                 text: " "
                                 size_hint: .04 ,None
                             MDTextField:
+                                multiline: True
                                 id: text_to_sent
                                 write_tab: True
                             MDFloatingActionButton:
@@ -140,9 +163,7 @@
                                 theme_text_color: "Custom"
                                 text_color: 1,1,1,1
                                 md_bg_color: app.theme_cls.primary_color
-
-
-
+                                on_release:root.sent_message()
 
 
         MDNavigationDrawer:
@@ -162,6 +183,7 @@
                 anchor_y: "top"
                 BoxLayout:
                     orientation: "vertical"
+
                     padding: "8dp"
                     spacing: "8dp"
                     size_hint_y: None

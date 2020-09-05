@@ -1,4 +1,3 @@
-
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy_class.login import Login
@@ -48,7 +47,7 @@ class MainApp(MDApp):
         self.load_kv('kivy_file/wide_screen/afterLogin.kv')
         self.load_kv('kivy_file/wide_screen/message.kv')
         self.theme_cls.primary_palette = "Blue"  # "Purple", "Red"
-        self.theme_cls.theme_style = "Dark"  # "Light"
+        self.theme_cls.theme_style = "Light"  # "Light"
         self.theme_cls.primary_hue = "500"  # "500"
         return MainWid()
 
