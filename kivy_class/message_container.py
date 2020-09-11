@@ -19,7 +19,7 @@ class MessageTextFm(MDBoxLayout):
         self.data = kwargs.get('msg_text')
         self.size_hint_y = kwargs.get('size_hint_y')
         self.size_hint_x = kwargs.get('size_hint_x')
-        self.width =  kwargs.get('width')
+        self.width = kwargs.get('width')
         self.height = kwargs.get('height')
         if kwargs.get('orientation') == 'left':
             self.orientation_r = [0, 15, 15, 15]
@@ -38,7 +38,7 @@ class MessageImageFm(MDBoxLayout):
         self.caption = kwargs.get('caption')
         self.size_hint_y = kwargs.get('size_hint_y')
         self.size_hint_x = kwargs.get('size_hint_x')
-        self.width =  kwargs.get('width')
+        self.width = kwargs.get('width')
         self.height = kwargs.get('height')
         self.url = kwargs.get('url')
         self.id = kwargs.get('id')
@@ -52,18 +52,19 @@ class MessageImageFm(MDBoxLayout):
             self.colorCanvas = (.960, .941, .941, 1)
             self.colorText = (0, 0, 0, 1)
 
-        if  kwargs.get('source') != 'file_not_exist':
-            image = Image(source= kwargs.get('source'))
-            caption = MDLabel(text= self.caption)
+        if kwargs.get('source') != 'file_not_exist':
+            image = Image(source=kwargs.get('source'))
+            caption = MDLabel(text=self.caption)
             self.add_widget(image)
         else:
-            layoutAn = AnchorLayout(anchor_x='center', anchor_y='center', size= self.size)
+            layoutAn = AnchorLayout(anchor_x='center', anchor_y='center', size=self.size)
             button = MDFloatingActionButton(pos_hint={"center_x": .5, "center_y": .5},
                                             icon='image-outline', elevation_normal=8,
                                             on_release=lambda x: self.reload_Img(self.id, self.url))
 
-            box = MDBoxLayout(orientation='vertical', spacing=10, size_hint= (None, None))
-            label = MDLabel(pos_hint={"center_x": .5, "center_y": .5}, text="Descargar imagen",  width=130, size_hint_x=None)
+            box = MDBoxLayout(orientation='vertical', spacing=10, size_hint=(None, None))
+            label = MDLabel(pos_hint={"center_x": .5, "center_y": .5}, text="Descargar imagen", width=130,
+                            size_hint_x=None)
 
             box.add_widget(button)
             box.add_widget(label)
@@ -101,20 +102,21 @@ class MessagePlayAudio(MDBoxLayout):
         file = kwargs.get('source')
         self.orientation = 'horizontal'
         self.padding = 10
-        self.lenght  = 0
+        self.lenght = 0
         self.stop = False
         self.flat = False
         """ containers """
         self.mainSliderBox = MDBoxLayout(orientation='vertical')
-        self.playBox = AnchorLayout(anchor_x='center', anchor_y='center', size_hint = (.24, 1.22))
+        self.playBox = AnchorLayout(anchor_x='center', anchor_y='center', size_hint=(.24, 1.22))
         self.sliderBox = AnchorLayout(anchor_x='center', anchor_y='center')
         self.labelStartBox = AnchorLayout(anchor_x='left', anchor_y='top')
         self.labelEndBox = AnchorLayout(anchor_x='right', anchor_y='top')
-        self.labelBox = MDBoxLayout(orientation='horizontal', size_hint = (1, .3), padding = 5)
+        self.labelBox = MDBoxLayout(orientation='horizontal', size_hint=(1, .3), padding=5)
         """" widgets """
-        self.playButton = MDIconButton(icon='play', user_font_size= "57sp", theme_text_color= "Custom", text_color= theme.primary_color, on_release=lambda x: self.play_sound() )
+        self.playButton = MDIconButton(icon='play', user_font_size="57sp", theme_text_color="Custom",
+                                       text_color=theme.primary_color, on_release=lambda x: self.play_sound())
         self.labelStart = MDLabel(text=" 0:00")
-        self.labelEnd = MDLabel(text="1:00", halign= "right" )
+        self.labelEnd = MDLabel(text="1:00", halign="right")
         self.slider = MDSlider(min=0, max=100)
         self.load_audio(file)
         self.slider.bind(value=self.on_value)
@@ -136,7 +138,7 @@ class MessagePlayAudio(MDBoxLayout):
         self.sound = SoundLoader.load(file)
         self.length = self.sound.length
         length_sec = self.length / 60
-        length_sec = str(round(length_sec,2))
+        length_sec = str(round(length_sec, 2))
         length_sec = length_sec.replace(".", ":")
         print("Sound is %.3f seconds" % self.sound.length)
         self.labelEnd.text = (length_sec)

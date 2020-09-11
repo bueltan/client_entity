@@ -4,11 +4,13 @@ from kivymd.uix.card import MDCard
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.gridlayout import GridLayout
 from kivymd.uix.list import ThreeLineIconListItem
-from kivymd.uix.button import MDFloatingActionButton
+from kivy.uix.scrollview import ScrollView
+from kivymd.uix.label import MDLabel
 from querries import after_login_payload, subscriptions
 from querries.message_database import get_msg_local_db, get_oneMsg_local_db
 from kivy_class.message_container import MessageTextFm, MessageImageFm, MessagePlayAudio
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.cache import Cache
 from kivymd.uix.tab import MDTabsBase
 from ast import literal_eval
 from general_functions import functions
@@ -23,6 +25,7 @@ from database.model_tickets import ModelTickets
 from querries.tickets_database import load_tk_in_database
 from querries.login_payload import upload_image
 from querries.login_database import load_account_from_db, update_account
+
 session = base.Session()
 
 optimal_thread_count = multiprocessing.cpu_count() + 1
@@ -31,43 +34,24 @@ poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 with open('./resource_files/language/spanish_after_login.json', 'r') as file:
     dict_l = literal_eval(file.read())
 
-card_sub = dict_l['card_subs']
+dictionary = dict_l['card_subs']
 
-class Tab(MDBoxLayout, MDTabsBase):
-
-    '''Class implementing content for a tab.'''
-class addNewItem(MDFloatingActionButton):
-    def __init__(self, **kwargs):
-        super(addNewItem, self).__init__()
 
 class CardSubscription(MDCard):
-    def __init__(self, mainwind, **kwargs):
+    def __init__(self,mainwind, **kwargs):
         super(CardSubscription, self).__init__()
         self.title.text = kwargs.get('title')
         self.title.font_style = "Subtitle1"
         self.titleSub.font_style = "Caption"
 
-
-        self.id = kwargs.get('id')
-        tk = self.tabs.add_widget(Tab(text="CHATS" , id=self.id))
-        self.tabs.add_widget(Tab(text="CONTACTS",id=self.id))
-        if self.title.text[0] != ".":
-            self.tabs.add_widget(Tab(text="MEMBERS",id=self.id))
-
-
-    def on_tab_switch(
-            self, instance_tabs, instance_tab, instance_tab_label, tab_text
-    ):
-        print(instance_tab.id)
-        print(tab_text)
-        self.container_msg.add_widget(addNewItem())
-
 class currentTk:
     id, id_tk, sub = None, None, None
+
     def __init__(self, **kwargs):
         currentTk.id = kwargs.get('id')
         currentTk.id_tk = kwargs.get('id_tk')
         currentTk.sub = kwargs.get('sub')
+
 
 class ItemTickets(ThreeLineIconListItem):
     def __init__(self, after_login_class, **kwargs) -> object:
@@ -123,13 +107,15 @@ class AfterLogin(MDBoxLayout):
         self.list_subscription = []
         self.layout = GridLayout(cols=1, spacing=20, size_hint_y=None)
         self.layout.bind(minimum_height=self.layout.setter('height'))
-        self.file_manager = MDFileManager( exit_manager=self.exit_manager,
-                                      select_path=self.select_path)
+        self.file_manager = MDFileManager(exit_manager=self.exit_manager,
+                                          select_path=self.select_path)
         self.navDrawer.open_file.on_release = lambda: self.file_manager.show('/')
         self.data_account = load_account_from_db()
 
-    def load_card_sub(self, account_name):
-        subscriptions = after_login_payload.get_subscritions(account_name)
+    def load_card_sub(self, **kwargs):
+        self.account_id = kwargs.get('account_id')
+        self.account_name = kwargs.get('account_name')
+        subscriptions = after_login_payload.get_subscritions(self.account_name)
         for sub in subscriptions:
             subscription = sub['node']['source']
             self.list_subscription.append(subscription)
@@ -137,42 +123,44 @@ class AfterLogin(MDBoxLayout):
             nodes_result = functions.get_nodes(subscription)
             nodes = nodes_result[0]
             if nodes_result[1] == True:
-                subscription_name = 'entity@'+ subscription.split('@')[1]
+                subscription_name = 'entity@' + subscription.split('@')[1]
             else:
                 subscription_name = subscription
-
             after_login_payload.get_tickets(nodes)
             self.card_s = CardSubscription(self, title=subscription_name, id=subscription)
             self.scroll_view.add_widget(self.card_s)
             self.ids[subscription] = self.card_s
-            tickets = session.query(ModelTickets).filter_by(id_code=str(nodes['id_code']), node2=nodes['node2'],
-                                                            node3=nodes['node3'], node4=nodes['node4'])
-            if tickets is not None:
-                for tk in tickets:
-                    data = {'id': tk.id, 'id_tk': tk.id_tk, 'name': tk.name,
-                            'image': tk.image, 'last_id_msg': tk.last_id_msg,
-                            'phone': tk.phone}
 
-                    self.create_tk(data, subscription)
-
+            self.load_tk_in_list(subscription, nodes)
             self.subscription_nodes(nodes)
 
+    def load_tk_in_list(self, sub, nodes):
+        tickets = session.query(ModelTickets).filter_by(id_code=nodes['id_code'], node2=nodes['node2'],
+                                                        node3=nodes['node3'], node4=nodes['node4'])
+        if tickets is not None:
+            for tk in tickets:
+                data = {'id': tk.id, 'id_tk': tk.id_tk, 'name': tk.name,
+                        'image': tk.image, 'last_id_msg': tk.last_id_msg,
+                        'phone': tk.phone}
+
+                self.create_tk(data, sub)
+
     def sent_message(self):
+        userId = self.account_id
         text = self.text_to_sent.text
         id_tk = currentTk.id_tk
         id = currentTk.id
         sub = functions.get_nodes(currentTk.sub)
         tickets = sub[0]
-        tickets['idCode'] = tickets.pop('id_code')
         tickets['idTk'] = id_tk
         tickets['id'] = id
-        message = {'type':'text', 'text':text}
-        payload = {**tickets, **message, 'userId':"kkkkkkkkk" }
-        build_message.exec_query(**payload)
+        message = {'type': 'text', 'text': text}
+        payload = {**tickets, **message, 'userId': userId}
+        build_message.exec_query(payload)
 
     def select_path(self, path):
         file_name = str(self.data_account.id) + ".png"
-        dest_file = './img_account/'+file_name
+        dest_file = './img_account/' + file_name
         functions.copy(path, dest_file)
         upload_image('file_name', path)
         data = self.data_account
@@ -207,14 +195,13 @@ class AfterLogin(MDBoxLayout):
         self.screenManager.current = 'subscriptions'
 
     def callback(self, _id, data):
-        print("callback")
         data = data['payload']['data']['getTK']
         data = literal_eval(data)
         id_tk = data['id_tk']
         id = data['id']
         data_sub = {'node': data}
         load_tk_in_database([data_sub])
-        #self.set_msg_in_widget()
+        # self.set_msg_in_widget()
 
         if id_tk in self.ids:
             id_sub = get_sub(data)
@@ -222,7 +209,7 @@ class AfterLogin(MDBoxLayout):
                 if i.id == id_tk:
                     last_id_msg = data['last_id_msg']
                     last_msg = after_login_payload.getLastMsg(last_id_msg)
-                    msg = functions.show_last_msg(last_msg, card_sub)
+                    msg = functions.show_last_msg(last_msg, dictionary)
                     i.secondary_text = msg
                     break
             else:
@@ -231,13 +218,13 @@ class AfterLogin(MDBoxLayout):
         else:
             self.create_tk(data, sub=None)
 
-    def set_msg_in_widget(self,id, id_msg):
+    def set_msg_in_widget(self, id, id_msg):
         if self.list_message.id == id:
             message = get_oneMsg_local_db(id_msg)
             self.load_msg(message)
 
     def subscription_nodes(self, variables):
-        variables = {'id_code':  variables['id_code'], 'node_2': variables['node2'],
+        variables = {'id_code': variables['id_code'], 'node_2': variables['node2'],
                      'node_3': variables['node3'], 'node_4': variables['node4']}
         subscriptions.subscriptions(self).getTK(variables)
 
@@ -256,22 +243,21 @@ class AfterLogin(MDBoxLayout):
                 email = self.data_account.email
                 self.navDrawer.email.text = email
 
-
     def create_tk(self, data, sub):
-        last_msg = after_login_payload.getLastMsg(data['last_id_msg'])
-        msg = functions.show_last_msg(last_msg, card_sub)
+        last_msg = get_oneMsg_local_db(data['last_id_msg'])
+        msg = functions.show_last_msg(last_msg, dictionary)
         if sub == None:
             id_sub = get_sub(data)
         else:
             id_sub = sub
-        item_tk = ItemTickets(self, id=data['id'], id_tk= data['id_tk'], name=data['name'],
-                              last_msg=msg, phone_num=data['phone'], sub= sub)
+        item_tk = ItemTickets(self, id=data['id'], id_tk=data['id_tk'], name=data['name'],
+                              last_msg=msg, phone_num=data['phone'], sub=sub)
 
         self.ids[id_sub].list_tickets.add_widget(item_tk)
         self.ids[data['id_tk']] = item_tk
         image_url = data['image']
-        dir_profile = "./img_profile/" +  data['id_tk'] + ".png"
-        save_profile = {'url': image_url, 'id_tk':  data['id_tk']}
+        dir_profile = "./img_profile/" + data['id_tk'] + ".png"
+        save_profile = {'url': image_url, 'id_tk': data['id_tk']}
 
         if os.path.isfile(dir_profile) and sub != "":
             item_tk.img_lef.source = dir_profile
@@ -320,12 +306,12 @@ class AfterLogin(MDBoxLayout):
             layoutAn = AnchorLayout(anchor_x=orientation, anchor_y='center', size_hint_y=None, height=new_size[1])
             message = MessageImageFm(self, size_hint_y=None,
                                      height=new_size[1], size_hint_x=None, width=new_size[0], orientation=orientation,
-                                     source=dir, caption=caption, url=msg.url, id = msg.id)
+                                     source=dir, caption=caption, url=msg.url, id=msg.id)
             if msg.type == "audio":
                 layoutAn = AnchorLayout(anchor_x=orientation, anchor_y='center', size_hint_y=None, height=150)
                 message = MessagePlayAudio(self, size_hint_y=None,
-                                         height=150, size_hint_x=None, width=450,
-                                         orientation=orientation,
-                                         source=dir, caption=caption, url=msg.url, id=msg.id)
+                                           height=150, size_hint_x=None, width=450,
+                                           orientation=orientation,
+                                           source=dir, caption=caption, url=msg.url, id=msg.id)
         layoutAn.add_widget(message)
         self.layout.add_widget(layoutAn)

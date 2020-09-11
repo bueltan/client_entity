@@ -4,6 +4,7 @@ from kivy_class.login import Login
 from kivy_class.register import Register
 from kivy_class.afterLogin import AfterLogin
 
+
 class MainWid(ScreenManager):
     def __init__(self, **kwargs):
         super(MainWid, self).__init__()
@@ -23,7 +24,6 @@ class MainWid(ScreenManager):
         wid.add_widget(self.After_login)
         self.add_widget(wid)
 
-
         self.goto_register()
         self.goto_login()
 
@@ -36,7 +36,8 @@ class MainWid(ScreenManager):
     def goto_after_login(self, **kwargs):
         print("goto_after_login")
         self.current = 'after_login_screen'
-        self.After_login.load_card_sub(kwargs.get('accound_name'))
+
+        self.After_login.load_card_sub(**kwargs)
         self.After_login.load_drawer()
 
 

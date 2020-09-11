@@ -26,4 +26,3 @@ class ModelTickets(Base):
     timestamp = Column('timestamp', String(20), doc="Record timestamp.")
 
     activityList = relationship(ModelActivity, backref='Tickets')
-

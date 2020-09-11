@@ -5,7 +5,8 @@ import sys
 
 traceback_template = '''Traceback (most recent call last):
   File "%(filename)s", line %(lineno)s, in %(name)s
-%(type)s: %(message)s\n''' # Skipping the "actual line" item
+%(type)s: %(message)s\n'''  # Skipping the "actual line" item
+
 
 class subscriptions():
     def __init__(self, mainwid, **kwargs):
@@ -24,7 +25,6 @@ class subscriptions():
         try:
             ws = GraphQLClient(Connection_endpoint.base_url_ws)
             ws.subscribe(query, variables=variables, callback=self.mainwid.callback)
-            print(variables)
         except:
             exc_type, exc_value, exc_traceback = sys.exc_info()  # most recent (if any) by default
 
@@ -37,10 +37,4 @@ class subscriptions():
             }
 
             del (exc_type, exc_value, exc_traceback)
-
-            print(traceback.format_exc())
-            print(traceback_template % traceback_details)
-
-
-
 

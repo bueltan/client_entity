@@ -5,19 +5,16 @@
         source: './img_profile/default-image.png'
 
 <CardSubscription>:
+    list_tickets: list_tickets
     title : title
-    tabs: tabs
-    list_tickets : list_tickets
     titleSub: titleSub
-    container_msg:container_msg
-    scroll_msg:scroll_msg
-
     orientation: "vertical"
     padding: "8dp"
     size_hint: None, 1
     size: "380dp", "1280dp"
     BoxLayout:
         orientation: "vertical"
+        size_hint:1,1
         BoxLayout:
             orientation: "horizontal"
             size_hint_y: None
@@ -34,12 +31,6 @@
                 spacing:5
                 orientation: "vertical"
                 size_hint_x : .9
-
-                MDLabel:
-                    id: title
-                    font_size: '15sp'
-                    theme_text_color: "Custom"
-                    text_color: 1,1,1,1
                 MDLabel:
                     id: titleSub
                     size_hint_x: None
@@ -47,40 +38,26 @@
                     font_style: 'Subtitle1'
                     text: 'Subscription'
                     theme_text_color: "Secondary"
+                MDLabel:
+                    id: title
+                    font_size: '15sp'
+                    theme_text_color: "Custom"
+                    text_color: 1,1,1,1
             AnchorLayout:
                 size_hint_x : .1
                 anchor_x: "right"
                 anchor_y: "top"
                 MDIconButton:
-                    icon: "settings"
+                    icon: "cog"
                     user_font_size: "24sp"
-
-        MDTabs:
-            id: tabs
-            on_tab_switch: root.on_tab_switch(*args)
-            size_hint_y :None
-            height:50
-
-
-        BoxLayout:
-            id:container_msg
-            orientation: 'vertical'
-            ScrollView:
-                id:scroll_msg
-                pos: 0,0
-                size_hint: 1, 1
-                MDList:
-                    id : list_tickets
+        ScrollView:
+            MDList:
+                id : list_tickets
 
 
 
-<Tab>:
-<addNewItem>:
-    icon: "plus-thick"
-    user_font_size: "24sp"
-    theme_text_color: "Custom"
-    text_color: 1,1,1,1
-    md_bg_color: app.theme_cls.primary_color
+
+
 
 <Afterlogin>:
     scroll_view : container

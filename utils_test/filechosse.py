@@ -5,7 +5,6 @@ from kivymd.app import MDApp
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.toast import toast
 
-
 KV = '''
 BoxLayout:
     orientation: 'vertical'

@@ -1,6 +1,7 @@
 import re
 import shutil
 
+
 def detect_nodes(subscription):
     nodes_contains = {'id_code': False, 'node2': False, 'node3': False, 'node4': False}
     if subscription.find(".") != -1:
@@ -22,10 +23,10 @@ def get_nodes(subscriptions):
     if nodes_contains['node4'] == True and nodes_contains['node3'] == False:
         nodes['node4'] = subscriptions
     if nodes_contains['node3'] == True and nodes_contains['node4'] == False:
-        nodes['node3'] = "#"+subscriptions.split("#")[1]
+        nodes['node3'] = "#" + subscriptions.split("#")[1]
     if nodes_contains['node3'] == True and nodes_contains['node4'] == True:
-       sub = subscriptions.split("#")[1]
-       nodes['node3'] = "#" + sub.split(".")[0]
+        sub = subscriptions.split("#")[1]
+        nodes['node3'] = "#" + sub.split(".")[0]
     if nodes_contains['node2'] == True and nodes_contains['node3'] == False and nodes_contains['id_code'] == False:
         nodes['node2'] = subscriptions
     if nodes_contains['node2'] == True and nodes_contains['node3'] == True and nodes_contains['id_code'] == False:
@@ -41,21 +42,22 @@ def get_nodes(subscriptions):
             s = int(nodes['id_code'])
         except:
             entity_id_code = True
-    if nodes_contains['id_code'] == True and nodes_contains['node3'] == False :
+    if nodes_contains['id_code'] == True and nodes_contains['node3'] == False:
         nodes['node2'] = "@" + subscriptions.split("@")[1]
 
     return nodes, entity_id_code
 
+
 def show_last_msg(payload, word):
-    if payload['type'] == "text":
-        return payload['text']
-    if payload['type'] == "ptt":
+    if payload.type == "text":
+        return payload.text
+    if payload.type == "ptt":
         return word['ticket_audio']
-    if payload['type'] == "image":
+    if payload.type == "image":
         return word['ticket_image']
-    if payload['type'] == "location":
+    if payload.type == "location":
         return word['ticket_location']
-    if payload['type'] == "document":
+    if payload.type == "document":
         return word['ticket_document']
 
 
@@ -80,11 +82,10 @@ def count_lent_sentence(text):
     if parcial > count:
         count = len(sentence)
 
-    return  count
+    return count
 
 
 def get_extension(type):
-
     if type == 'audio':
         extension = '.ogg'
 
@@ -105,12 +106,13 @@ def get_height_img(width, height, width_end):
     percent = 100 * float(width_end) / float(width)
     height_end = round(height / 100 * percent)
     return width_end, height_end
-#print(get_height_img(720, 1280, 300))
+
+
 
 
 def save_dir_in_db(dir, table):
     pass
 
+
 def copy(src_file, dest_file):
     shutil.copy2(src_file, dest_file, follow_symlinks=True)
-

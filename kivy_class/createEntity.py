@@ -9,21 +9,19 @@ from kivymd.uix.label import MDLabel
 from kivymd.app import MDApp
 
 
-
 class createEntity(MDBoxLayout):
     def __init__(self, **kwargs):
         super(createEntity, self).__init__()
 
         self.orientation = 'vertical'
         self.toolbar = MDToolbar(title="Entidades")
-        self.mainBox = MDBoxLayout(size = self.size, orientation='horizontal')
+        self.mainBox = MDBoxLayout(size=self.size, orientation='horizontal')
 
         self.boxNewEntity = AnchorLayout(anchor_x='center', anchor_y='top', size_hint=(1, 1), )
-        self.boxTextFieldEntity = MDBoxLayout(size_hint = (.7, .3), orientation= 'vertical')
+        self.boxTextFieldEntity = MDBoxLayout(size_hint=(.7, .3), orientation='vertical')
 
-        self.boxSecond = AnchorLayout(anchor_x='center', anchor_y='top', size_hint = (1, 1))
-        self.label = MDLabel(text= "Crear una nueva entidad", size_hint_y =None, height=20)
-
+        self.boxSecond = AnchorLayout(anchor_x='center', anchor_y='top', size_hint=(1, 1))
+        self.label = MDLabel(text="Crear una nueva entidad", size_hint_y=None, height=20)
 
         self.nameEntityField = MDTextField()
         self.numberWsapp = MDTextField()
@@ -32,12 +30,10 @@ class createEntity(MDBoxLayout):
         self.boxTextFieldEntity.add_widget(self.nameEntityField)
         self.boxNewEntity.add_widget(self.boxTextFieldEntity)
 
-
         self.mainBox.add_widget(self.boxNewEntity)
         self.mainBox.add_widget(self.boxSecond)
         self.add_widget(self.toolbar)
         self.add_widget(self.mainBox)
-
 
 
 class MainApp(MDApp):
@@ -46,6 +42,7 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette = "Blue"  # "Purple", "Red"
         self.theme_cls.primary_hue = "500"  # "500"
         return createEntity()
+
 
 if __name__ == "__main__":
     MainApp().run()

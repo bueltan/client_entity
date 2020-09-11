@@ -1,9 +1,10 @@
-
 from kivymd.uix.boxlayout import MDBoxLayout
 from querries.login_payload import check_login
 from kivymd.uix.dialog import MDDialog
 from querries.login_database import save_account, load_account_from_db
 from querries.login_payload import get_data_account
+
+
 class MessagePopup():
     dialog = None
 
@@ -21,8 +22,8 @@ class Login(MDBoxLayout):
     def __init__(self, mainwid, **kwargs):
         super(Login, self).__init__()
         self.mainwid = mainwid
-        self.title.font_style= "H3"
-        self.keepOpen.on_release = lambda : self.change_ck()
+        self.title.font_style = "H3"
+        self.keepOpen.on_release = lambda: self.change_ck()
         account = load_account_from_db()
         try:
             self.ck_keepOpen.active = account.keepOpen
@@ -34,7 +35,6 @@ class Login(MDBoxLayout):
                 self.password.text = account.password
 
     def change_ck(self):
-        print("fgd")
         if self.ck_keepOpen.active == False:
 
             self.ck_keepOpen.active = True
@@ -45,18 +45,18 @@ class Login(MDBoxLayout):
         # DELETE THIS DON'T FORGET
         connection = True
 
-        user = "."+self.user.text
+        user = "." + self.user.text
         user = user.lower()
         password = self.password.text
         id = check_login(user, password)
         if id:
             print(id)
-            self.mainwid.goto_after_login(accound_name=user)
+            self.mainwid.goto_after_login(account_name=user ,account_id = id)
             keepOpen = self.ck_keepOpen.active
             if connection:
                 data = get_data_account(id)
                 data['id'] = id
-                data['keepOpen']=keepOpen
+                data['keepOpen'] = keepOpen
                 print(data)
                 save_account(data)
         else:

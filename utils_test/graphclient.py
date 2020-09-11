@@ -1,5 +1,6 @@
 from gql import gql, Client, AIOHTTPTransport
 import logging
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s-%(process)d-%(levelname)s-%(message)s-%(thread)d')
 # Select your transport with a defined url endpoint
 
@@ -21,8 +22,8 @@ query = gql(
 
 # Execute the query on the transport
 logging.debug(msg="start")
-variables = {'node4':".sergio"}
-result = client.execute(query,variable_values=variables)
+variables = {'node4': ".sergio"}
+result = client.execute(query, variable_values=variables)
 logging.debug(msg="end")
 
 print(result)

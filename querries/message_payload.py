@@ -8,6 +8,7 @@ import multiprocessing
 optimal_thread_count = multiprocessing.cpu_count() + 1
 poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 
+
 def get_msg(session, id_msg, ticketsId, timestamp):
     payload = '{"query": "{getMessage (id:\\"' + id_msg + '\\"){type,text,fromMe,mime,url,caption,filename,payload,vcardList}}"}'
     json = send_payload(payload)

@@ -5,7 +5,6 @@ from kivymd.app import MDApp
 from kivymd.uix.label import MDLabel
 from kivymd.uix.snackbar import Snackbar
 
-
 KV_CODE = '''
 #:import md_icons kivymd.icon_definitions.md_icons
 #:set FONT_SIZE 64
@@ -35,6 +34,7 @@ class Item(MDLabel):
         if self.collide_point(*touch.opos):
             Snackbar(text=self.icon_name, duration=1.5).show()
             print(self.icon_name)
+
 
 class ListingAllIconsApp(MDApp):
     def build(self):

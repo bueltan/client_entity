@@ -8,27 +8,29 @@ from kivy.core.audio import SoundLoader
 from kivy.clock import Clock
 import time
 
+
 class MessagePlayAudio(MDBoxLayout):
     def __init__(self, theme, **kwargs):
         super(MessagePlayAudio, self).__init__()
 
         self.orientation = 'horizontal'
         self.padding = 10
-        self.lenght  = 0
+        self.lenght = 0
         self.stop = False
         self.flat = False
         file = 'Clip 4.ogg'
         """ containers """
         self.mainSliderBox = MDBoxLayout(orientation='vertical')
-        self.playBox = AnchorLayout(anchor_x='center', anchor_y='center', size_hint = (.24, 1.22))
+        self.playBox = AnchorLayout(anchor_x='center', anchor_y='center', size_hint=(.24, 1.22))
         self.sliderBox = AnchorLayout(anchor_x='center', anchor_y='center')
         self.labelStartBox = AnchorLayout(anchor_x='left', anchor_y='top')
         self.labelEndBox = AnchorLayout(anchor_x='right', anchor_y='top')
-        self.labelBox = MDBoxLayout(orientation='horizontal', size_hint = (1, .3), padding = 5)
+        self.labelBox = MDBoxLayout(orientation='horizontal', size_hint=(1, .3), padding=5)
         """" widgets """
-        self.playButton = MDIconButton(icon='play', user_font_size= "57sp", theme_text_color= "Custom", text_color= theme.primary_color, on_release=lambda x: self.play_sound() )
+        self.playButton = MDIconButton(icon='play', user_font_size="57sp", theme_text_color="Custom",
+                                       text_color=theme.primary_color, on_release=lambda x: self.play_sound())
         self.labelStart = MDLabel(text=" 0:00")
-        self.labelEnd = MDLabel(text="1:00", halign= "right" )
+        self.labelEnd = MDLabel(text="1:00", halign="right")
         self.slider = MDSlider(min=0, max=100)
         self.load_audio(file)
         self.slider.bind(value=self.on_value)
@@ -50,7 +52,7 @@ class MessagePlayAudio(MDBoxLayout):
         self.sound = SoundLoader.load(file)
         self.length = self.sound.length
         length_sec = self.length / 60
-        length_sec = str(round(length_sec,2))
+        length_sec = str(round(length_sec, 2))
         length_sec = length_sec.replace(".", ":")
         print("Sound is %.3f seconds" % self.sound.length)
         self.labelEnd.text = (length_sec)
@@ -80,7 +82,7 @@ class MessagePlayAudio(MDBoxLayout):
         self.flat = True
         self.slider.value = percent
         self.flat = False
-        if round(position,1) == round(total):
+        if round(position, 1) == round(total):
             print("fin sonido")
             self.flat = True
             self.slider.value = 100

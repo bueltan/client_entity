@@ -41,7 +41,7 @@ class Test(MDApp):
             caller=self.screen.ids.button,
             items=menu_items,
             width_mult=4,
-            #selected_color=self.theme_cls.bg_darkest
+            # selected_color=self.theme_cls.bg_darkest
 
         )
 
@@ -55,7 +55,7 @@ class Test(MDApp):
                 caller=item,
                 items=menu_items,
                 width_mult=4
-                #selected_color=self.theme_cls.bg_darkest,
+                # selected_color=self.theme_cls.bg_darkest,
             )
             self.submenu.bind(on_dismiss=self.set_state_submenu)
             self.submenu.open()

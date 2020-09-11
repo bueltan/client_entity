@@ -5,6 +5,10 @@ class build_message():
     def __init__(self, ):
         super(build_message, self).__init__()
 
-    def exec_query(**kwargs):
-        print(kwargs)
-        sentMessage(**kwargs)
+    @staticmethod
+    def exec_query(payload):
+        payload['idCode'] = payload.pop('id_code')
+
+        print(" in staticmethod ",type(payload), payload)
+
+        sentMessage(**payload)

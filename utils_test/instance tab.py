@@ -1,68 +1,83 @@
 from kivy.lang import Builder
-from kivy.uix.floatlayout import FloatLayout
-
+from kivy.uix.scrollview import ScrollView
+from kivymd.uix.label import MDLabel
 from kivymd.app import MDApp
 from kivymd.uix.tab import MDTabsBase
+from kivy.uix.boxlayout import BoxLayout
+from kivymd.uix.button import MDTextButton
 
 KV = '''
-
-   
 BoxLayout:
     orientation: "vertical"
-    
+
     MDToolbar:
         title: "Example Tabs"
 
     MDTabs:
         id: tabs
-        on_tab_switch: app.on_tab_switch(*args)
+        
+       
 
 
 <Tab>:
-    label:label
-    MDLabel:
-        id: label
-        text: "Tab 0"
-        halign: "center"
-        
-    MDTextField:
-        id: textField
-        text: "Text Field 0"
-        halign: "center"
+    list_tk:list_tk
+    ScrollView:
+        MDList:
+            id: list_tk
+            
 '''
-class Tab(FloatLayout):
-    def __init__(self, **kwargs):
+
+
+class Tab(BoxLayout, MDTabsBase):
+     def __init__(self, text):
         super(Tab, self).__init__()
-        self.label.text = "dffs"
+        self.text = text
+        self.id = 'tab'
+        for i in range(30):
+            btn = MDTextButton(text="fdgkdfñlg")
+            self.list_tk.add_widget(btn)
+        print(self.size)
 
-
-class Tab(FloatLayout, MDTabsBase):
-    '''Class implementing content for a tab.'''
-
+class Tab1(ScrollView, MDTabsBase):
+     def __init__(self, text):
+        super(Tab1, self).__init__()
+        self.text = text
+        self.id = 'tab1'
+        label = MDLabel(text= text, id = 'label')
+        self.add_widget(label)
 
 class Example(MDApp):
+    index = 0
+
     def build(self):
         return Builder.load_string(KV)
 
     def on_start(self):
-        for i in range(20):
-            self.root.ids.tabs.add_widget(Tab(text="fsdñlfksdkfñlsdfk"))
+        self.add_tab()
+
+    def get_tab_list(self):
+        '''Prints a list of tab objects.'''
+        print(self.root.ids.tabs.get_tab_list())
+
+    def add_tab(self):
+        self.index += 1
+        tab1  = Tab1(text=f"{self.index} tab1")
+        self.root.ids.tabs.add_widget(Tab(text=f"{self.index} tab"))
+        self.root.ids.tabs.add_widget(tab1)
+        self.root.ids['tab1'] = tab1
+
+    def remove_tab(self):
+        if self.index > 1:
+            self.index -= 1
+        self.root.ids.tabs.remove_widget(self.root.ids.tabs.get_tab_list()[0])
+
+    def on_tab_switch(self, *args):
+       print(args)
+
+    def changeLabelTab1(self):
+        self.root.ids['tab1'].children[0].text = "sdfsdf"
 
 
-
-    def on_tab_switch(
-        self, instance_tabs, instance_tab, instance_tab_label, tab_text
-    ):
-
-        '''Called when switching tabs.
-
-        :type instance_tabs: <kivymd.uix.tab.MDTabs object>;
-        :param instance_tab: <__main__.Tab object>;
-        :param instance_tab_label: <kivymd.uix.tab.MDTabsLabel object>;
-        :param tab_text: text or name icon of tab;
-        '''
-
-        instance_tab.ids.label.text = "dddd"
 
 
 Example().run()

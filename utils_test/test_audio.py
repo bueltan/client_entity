@@ -1,4 +1,3 @@
-
 # import PyOpenAL (will require OpenAL32.dll)
 
 from openal import *
@@ -18,7 +17,6 @@ source.play()
 # check if the file is still playing
 
 while source.get_state() == AL_PLAYING:
-
     # wait until the file is done playing
 
     time.sleep(1)
