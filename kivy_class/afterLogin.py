@@ -92,7 +92,6 @@ def get_profile_img(payload):
     except:
         pass
 
-
 def get_sub(data):
     if data['id_code'] != 0:
         id_sub = str(data['id_code']) + data['node2'] + data['node3'] + data['node4']
