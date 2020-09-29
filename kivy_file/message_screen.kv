@@ -1,0 +1,47 @@
+<screen_message>:
+    MDBoxLayout:
+        orientation:'vertical'
+        MDToolbar:
+            title: "Entity"
+            elevation: 10
+            left_action_items: [['menu', lambda x: navDrawer.set_state()]]
+            right_action_items: [["dots-vertical",  lambda x : root.back_subscriptions()], ["arrow-left", lambda x : root.back_subscriptions() ]]
+
+        MDBoxLayout:
+            padding:20
+            orientation:'vertical'
+            spacing: 10
+            MDBoxLayout:
+                size_hint_y : .86
+                orientation:'vertical'
+                spacing: 10
+                ScrollView:
+                    id: list_message
+                    size_hint: 1, 1
+                    size: self.size
+
+            MDBoxLayout:
+                orientation:'horizontal'
+                size_hint_y : .14
+                spacing: 10
+                canvas.before:
+                    Color:
+                        rgba: .011, .27, 87, .10
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size[0] , 55
+                        radius: [25,]
+                MDLabel:
+                    text: " "
+                    size_hint: .04 ,None
+                MDTextField:
+                    multiline: True
+                    id: text_to_sent
+                    write_tab: True
+                MDFloatingActionButton:
+                    icon: "send-outline"
+                    user_font_size: "32sp"
+                    theme_text_color: "Custom"
+                    text_color: 1,1,1,1
+                    md_bg_color: app.theme_cls.primary_color
+                    on_release:root.sent_message()

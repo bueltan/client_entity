@@ -2,24 +2,23 @@ from Connection_endpoint import send_payload
 from querries.message_database import load_msg_in_database
 from querries.dowload_media_file import get_media_file
 from rx import Observable
-from rx.concurrency import ThreadPoolScheduler
 import multiprocessing
+from rx.concurrency import ThreadPoolScheduler
 
-optimal_thread_count = multiprocessing.cpu_count() + 1
+optimal_thread_count = multiprocessing.cpu_count()
 poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 
+from Connection_endpoint import send_payload
+from querries import message_database
 
-def get_msg(session, id_msg, ticketsId, timestamp):
-    payload = '{"query": "{getMessage (id:\\"' + id_msg + '\\"){type,text,fromMe,mime,url,caption,filename,payload,vcardList}}"}'
+
+def get_message(session, id, timestamp):
+    payload = '{"query": "{listMessage (ticketsId:\\"' + id + '\\", timestamp:\\"'+timestamp+'\\" ){edges{node {ticketsId,id,type,text,fromMe,mime,url,caption,filename,payload,vcardList,timestamp}}}}"}'
     json = send_payload(payload)
+    print(payload)
+    print(json)
     if json is not None:
-        if json['data']['getMessage'] is not None:
-            source = (json['data']['getMessage'])
-            source['id'] = id_msg
-            source['ticketsId'] = ticketsId
-            source['timestamp'] = timestamp
-            load_msg_in_database(session, source)
-            if source['type'] == 'image':
-                Observable.of(source) \
-                    .map(lambda i: get_media_file(i)) \
-                    .subscribe_on(poo_scheduler).subscribe()
+        if json['data']['listMessage']['edges'] != []:
+            source = (json['data']['listMessage']['edges'])
+            message_database.load_msg_in_database(session, source)
+

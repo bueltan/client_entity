@@ -1,8 +1,8 @@
 import requests
 
-server_http = 'http://localhost:5000/'
-base_url_http = server_http + 'graphql'
-base_url_ws = 'ws://localhost:5000/subscriptions'
+server_http = 'http://localhost:5000/' #'http://192.168.0.22:5000/'
+base_url_http = server_http + 'graphql'#
+base_url_ws = 'ws://localhost:5000/subscriptions'#'ws://192.168.0.22:5000/subscriptions'
 headers = {'content-type': 'application/json'}
 
 

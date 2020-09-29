@@ -1,0 +1,93 @@
+<drawer_entity>:
+    avatar: avatar
+    namePerson: namePerson
+    idName: idName
+    email: email
+    open_file:open_file
+    orientation: "vertical"
+
+    Widget:
+        size_hint_y: None
+        height: 8
+    AnchorLayout:
+        anchor_x: "left"
+        anchor_y: "top"
+        BoxLayout:
+            orientation: "vertical"
+
+            padding: "8dp"
+            spacing: "8dp"
+            size_hint_y: None
+            height:350
+
+            AnchorLayout:
+                anchor_x: "left"
+                size_hint_y: None
+
+            RelativeLayout:
+                Image:
+                    id: avatar
+                    size_hint: None, None
+                    pos: 0, 0
+                MDFloatingActionButton:
+                    id:open_file
+                    pos: 88, -8
+                    icon: "pencil"
+                    user_font_size: "14sp"
+                    theme_text_color: "Custom"
+                    text_color: 1,1,1,1
+                    md_bg_color: app.theme_cls.primary_color
+            MDLabel:
+                id: namePerson
+                font_style: "Button"
+                size_hint_y: None
+                height: self.texture_size[1]
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint_y: None
+                height: LabelAccount.texture_size[1]
+                MDLabel:
+                    id:LabelAccount
+                    text: "Cuenta: "
+                    font_style: "Subtitle2"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    size_hint_x: None
+                    width:55
+
+                MDLabel:
+                    id:idName
+                    font_style: "Caption"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint_y: None
+                height: LabelEmail.texture_size[1]
+                MDLabel:
+                    id:LabelEmail
+                    text: "Email: "
+                    font_style: "Subtitle2"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    size_hint_x: None
+                    width:55
+                MDLabel:
+                    id:email
+                    font_style: "Caption"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
+            MDList:
+                OneLineListItem:
+                    text: "Mis subcripciones"
+                    on_press:
+
+                OneLineListItem:
+                    text: "Entidades"
+                    on_press:
+
+                OneLineListItem:
+                    text: "Miembros"
+                    on_press:

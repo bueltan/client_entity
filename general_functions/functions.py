@@ -49,6 +49,7 @@ def get_nodes(subscriptions):
 
 
 def show_last_msg(payload, word):
+    print(payload)
     if payload.type == "text":
         return payload.text
     if payload.type == "ptt":
