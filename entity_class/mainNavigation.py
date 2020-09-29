@@ -14,12 +14,13 @@ from entity_class.cardSubscription import DataSubscription, CardSubscription
 from querries import sub_entity_payload
 from ast import literal_eval
 from general_functions import functions
+from Connection_endpoint import dir_language
 from threading import current_thread
 
 
 session = base.Session()
 
-with open('./resource_files/language/spanish_after_login.json', 'r') as file:
+with open(dir_language, 'r') as file:
     dict_l = literal_eval(file.read())
 
 dictionary = dict_l['card_subs']

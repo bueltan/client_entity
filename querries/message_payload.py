@@ -15,8 +15,7 @@ from querries import message_database
 def get_message(session, id, timestamp):
     payload = '{"query": "{listMessage (ticketsId:\\"' + id + '\\", timestamp:\\"'+timestamp+'\\" ){edges{node {ticketsId,id,type,text,fromMe,mime,url,caption,filename,payload,vcardList,timestamp}}}}"}'
     json = send_payload(payload)
-    print(payload)
-    print(json)
+
     if json is not None:
         if json['data']['listMessage']['edges'] != []:
             source = (json['data']['listMessage']['edges'])

@@ -1,10 +1,11 @@
 """"  sync data """
 import json
 import time
-from Connection_endpoint import send_payload
+
+from Connection_endpoint import send_payload, dir_settings_file
 from querries import tickets_database
 from ast import literal_eval
-dir_settings_file = './resource_files/settings/GLOBAL_VAR.json'
+
 
 def read_in_file_global_var():
     with open(dir_settings_file, 'r') as file:
@@ -12,6 +13,7 @@ def read_in_file_global_var():
         except: data = None
         finally:
             return data
+
 
 def write_in_file_global_var(sub, **kwargs):
     data = read_in_file_global_var()

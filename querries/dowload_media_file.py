@@ -7,7 +7,7 @@ def get_media_file(payload):
     extension = get_extension(payload['type'])
     try:
         response = requests.get(payload['url'])
-        dir_file = "./media_file/" + msg_id + extension
+        dir_file = "./assets/media_file/" + msg_id + extension
         file = open(dir_file, "wb")
         file.write(response.content)
         file.close()
