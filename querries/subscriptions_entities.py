@@ -1,4 +1,4 @@
-import Connection_endpoint
+import connection_endpoint
 from graphql_client import GraphQLClient
 import traceback
 import sys
@@ -25,7 +25,7 @@ class subscriptions():
         )} 
         """
         try:
-            ws = GraphQLClient(Connection_endpoint.base_url_ws)
+            ws = GraphQLClient(connection_endpoint.base_url_ws)
             ws.subscribe(query, variables=variables, callback=self.mainwid.callback)
         except:
             exc_type, exc_value, exc_traceback = sys.exc_info()  # most recent (if any) by default

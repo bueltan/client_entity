@@ -1,4 +1,4 @@
-from Connection_endpoint import send_payload
+from connection_endpoint import send_payload
 
 
 def get_id(value, resolve, field):

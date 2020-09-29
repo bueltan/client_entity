@@ -1,4 +1,4 @@
-from Connection_endpoint import send_payload
+from connection_endpoint import send_payload
 from querries.message_database import load_msg_in_database
 from querries.dowload_media_file import get_media_file
 from rx import Observable
@@ -8,7 +8,7 @@ from rx.concurrency import ThreadPoolScheduler
 optimal_thread_count = multiprocessing.cpu_count()
 poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 
-from Connection_endpoint import send_payload
+from connection_endpoint import send_payload
 from querries import message_database
 
 

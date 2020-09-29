@@ -14,9 +14,8 @@ from entity_class.cardSubscription import DataSubscription, CardSubscription
 from querries import sub_entity_payload
 from ast import literal_eval
 from general_functions import functions
-from Connection_endpoint import dir_language
 from threading import current_thread
-
+from path import dir_language
 
 session = base.Session()
 
@@ -41,7 +40,7 @@ class mainNavigation(NavigationLayout):
         def get_from_where(id_code, entity):
             if id_code == '' or entity:
                 return 'entity'
-            else : return 'whatsapp'
+            else: return 'whatsapp'
         origen = {}
 
         for sub in subscriptions:
@@ -89,7 +88,7 @@ class mainNavigation(NavigationLayout):
     def build_card_subscription(self,dt):
         card_sub = CardSubscription(**self.data_subscriptions[self.index].data_tk_sub)
         self.container.add_widget(card_sub)
-        self.index +=  1
+        self.index += 1
 
 
 

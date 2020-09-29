@@ -6,11 +6,12 @@ from querries.message_database import get_oneMsg_local_db
 import multiprocessing
 from rx.concurrency import ThreadPoolScheduler
 from ast import literal_eval
+from path import dir_language, assets
 
 optimal_thread_count = multiprocessing.cpu_count()
 poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 
-with open('./assets/resource_files/language/spanish_after_login.json', 'r') as file:
+with open(dir_language, 'r') as file:
     dict_l = literal_eval(file.read())
 
 dictionary = dict_l['card_subs']
@@ -20,7 +21,7 @@ def build_data_tk(*arg):
     last_msg = get_oneMsg_local_db(arg[0]['lastIdMsg'])
     msg = functions.show_last_msg(last_msg, dictionary)
     image_url = arg[0]['image']
-    dir_profile = "./assets/img_profile/" + arg[0]['idTk'] + ".png"
+    dir_profile = assets + arg[0]['idTk'] + ".png"
     if os.path.isfile(dir_profile):
         data_to_return['source_img'] = dir_profile
 
@@ -32,7 +33,7 @@ def build_data_tk(*arg):
                 .map(lambda i: get_profile_img(i)) \
                 .subscribe_on(poo_scheduler).subscribe(on_error = lambda e : print("Error al descargar",e))
         else:
-            dir_default= "./assets/img_profile/default_profile.png"
+            dir_default = assets + "/img_profile/default_profile.png"
             data_to_return['source_img'] = dir_default
 
     if arg[0]['phone']:
@@ -55,7 +56,7 @@ def get_profile_img(payload):
     print("get_profile_img")
     print(payload['url'])
     response = requests.get(payload['url'])
-    dir_profile = "./assets/img_profile/" + tk_id + ".png"
+    dir_profile = assets + "/img_profile/" + tk_id + ".png"
     file = open(dir_profile, "wb")
     if response:
         file.write(response.content)

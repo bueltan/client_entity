@@ -1,7 +1,7 @@
-from Connection_endpoint import send_payload
+from connection_endpoint import send_payload
 import threading
 import requests
-import Connection_endpoint
+import connection_endpoint
 
 
 def check_login(user, password):
@@ -17,7 +17,7 @@ def check_login(user, password):
 
 
 def upload_image(file_name, path):
-    base_url = Connection_endpoint.server_http + 'upload_p_image'
+    base_url = connection_endpoint.server_http + 'upload_p_image'
     headers = {'filename': file_name}
     with open(path, 'rb') as f:
         json = requests.post(base_url, data=f, headers=headers)

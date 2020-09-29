@@ -2,10 +2,10 @@
 import json
 import time
 
-from Connection_endpoint import send_payload, dir_settings_file
+from connection_endpoint import send_payload
 from querries import tickets_database
 from ast import literal_eval
-
+from path import dir_settings_file
 
 def read_in_file_global_var():
     with open(dir_settings_file, 'r') as file:
@@ -32,7 +32,7 @@ def write_in_file_global_var(sub, **kwargs):
 
 
 def sync_tickets(nodes, my_id):
-    sub = nodes['id_code'] + nodes['node2']+ nodes['node3'] + nodes['node4']
+    sub = nodes['id_code'] + nodes['node2'] + nodes['node3'] + nodes['node4']
     file_var = read_in_file_global_var()
     last_sync_timestamp = 0
 

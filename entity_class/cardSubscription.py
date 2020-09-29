@@ -14,15 +14,14 @@ from querries.tickets_payload import sync_tickets
 from entity_class.build_data_tk import build_data_tk
 
 
-
-class DataSubscription():
+class DataSubscription:
     session = Session()
 
-    def __init__(self,*args ,**kwargs):
+    def __init__(self, *args, **kwargs):
         self.data_tk = []
         self.data_sub = kwargs
         self.my_id = args[0]
-        self.my_id_name=args[1]
+        self.my_id_name = args[1]
         for i in self.data_sub['origen']:
             if i == 'entity':
                 id_code = self.data_sub['origen']['entity']
@@ -84,6 +83,12 @@ class CardSubscription(MDCard):
         self.title.text = self.data_sub['node2'] + \
                           self.data_sub['node3']+ self.data_sub['node4']
 
+        for i in self.data_sub['origen']:
+            if i == 'entity':
+                self.origen.add_widget(MDIconButton(icon='graph', user_font_size="20sp"))
+            if i == 'whatsapp':
+                self.origen.add_widget(MDIconButton(icon='whatsapp', user_font_size="20sp"))
+
         self.set_list_data()
         if len(self.data_sub['origen']) == 2:
             self.data_sub['id_code'] = '0'
@@ -98,12 +103,6 @@ class CardSubscription(MDCard):
         id = data['id']
         data_sub = {'node': data}
         load_tk_in_database([data_sub])
-
-        for i in self.data_sub['origen']:
-            if i == 'entity':
-                self.origen.add_widget(MDIconButton(icon='graph', user_font_size="20sp"))
-            if i == 'whatsapp':
-                self.origen.add_widget(MDIconButton(icon='whatsapp', user_font_size="20sp"))
 
 
     def set_list_data(self, text="", search=False):

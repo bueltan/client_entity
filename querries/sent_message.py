@@ -1,5 +1,5 @@
 from gql import gql, Client, AIOHTTPTransport
-from Connection_endpoint import base_url_http
+from connection_endpoint import base_url_http
 transport = AIOHTTPTransport(url=base_url_http)
 
 # Create a GraphQL client using the defined transport
