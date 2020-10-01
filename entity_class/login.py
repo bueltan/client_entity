@@ -22,7 +22,6 @@ class Login(MDBoxLayout):
     def __init__(self, mainwid, **kwargs):
         super(Login, self).__init__()
         self.mainwid = mainwid
-        self.title.font_style = "H3"
         self.keepOpen.on_release = lambda: self.change_ck()
         account = load_account_from_db()
         try:

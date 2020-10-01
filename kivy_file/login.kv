@@ -14,7 +14,6 @@
 
 
 <Login>:
-    title:title
     user: user_input
     password: password_input
     keepOpen: keepOpen
@@ -22,34 +21,28 @@
     newPass:newPass
     BoxLayout:
         orientation: 'vertical'
-        rows: 2
+        rows: 3
         size: root.size
-        AnchorLayout:
-            anchor_x:'center'
-            anchor_y:'center'
+        MDIcon:
             size_hint : (1, .2)
-            size_hint_min_x: 300
-            size_hint_min_y: 100
-
-            MDLabel:
-                id : title
-                text: "Entity"
-                halign: "center"
-                theme_text_color: "Custom"
-                text_color: app.theme_cls.primary_color
+            halign: "center"
+            icon: "graph"
+            font_size: "40sp"
+            theme_text_color:"Custom"
+            text_color: app.theme_cls.primary_color
 
         AnchorLayout:
             anchor_x:'center'
             anchor_y:'center'
-            size_hint : (1, .8)
+            size_hint : (1, .7)
             MDCard:
                 size_hint_y: .9
                 size_hint_x: .9
                 size_hint_min_x: 350
                 size_hint_min_y: 350
                 size_hint_max_x: 450
-                size_hint_max_y: 400
-                elevation: .01
+                size_hint_max_y: 500
+                elevation: .0
                 BoxLayout:
                     orientation:'vertical'
                     padding: 20

@@ -20,7 +20,7 @@ def upload_image(file_name, path):
     base_url = connection_endpoint.server_http + 'upload_p_image'
     headers = {'filename': file_name}
     with open(path, 'rb') as f:
-        json = requests.post(base_url, data=f, headers=headers)
+        json = None #requests.post(base_url, data=f, headers=headers)
     return json
 
 

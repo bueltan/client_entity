@@ -51,9 +51,9 @@ class MainApp(MDApp):
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/messageFrame.kv")
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/cardSubscription.kv")
 
-        self.theme_cls.primary_palette = "Green"  # "Purple", "Red"
-        self.theme_cls.theme_style = "Dark"  # "Light"
-        self.theme_cls.primary_hue = "700"  # "500"
+        self.theme_cls.primary_palette = "Blue"  # "Purple", "Red"
+        self.theme_cls.theme_style = "Light"  # "Light"
+        self.theme_cls.primary_hue = "500"  # "500"
         return MainWid()
 
     def on_start(self):

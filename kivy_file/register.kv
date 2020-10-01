@@ -30,7 +30,6 @@
     password: password_input
     email : email_input
     second_password : second_password_input
-    title: title
 
     #boxName : box_name
     #boxPassword: box_password
@@ -48,11 +47,12 @@
             size_hint_min_x: 300
             size_hint_min_y: 100
 
-            MDLabel:
-                id : title
-                text: "Entity"
+            MDIcon:
+                size_hint : (1, .2)
                 halign: "center"
-                theme_text_color: "Custom"
+                icon: "graph"
+                font_size: "45sp"
+                theme_text_color:"Custom"
                 text_color: app.theme_cls.primary_color
 
         AnchorLayout:
@@ -61,8 +61,8 @@
             size_hint : (1, .8)
             MDCard:
                 orientation: 'vertical'
-                size_hint_y: .7
-                size_hint_x: .6
+                size_hint_y: .9
+                size_hint_x: .9
                 size_hint_min_x: 400
                 size_hint_min_y: 400
                 size_hint_max_x: 600

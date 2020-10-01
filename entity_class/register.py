@@ -31,7 +31,6 @@ class MessagePopup():
 class Register(MDBoxLayout):
     def __init__(self, mainwid, **kwargs):
         super(Register, self).__init__()
-        self.title.font_style = "H3"
 
         self.mainwid = mainwid
 
@@ -126,12 +125,10 @@ class Register(MDBoxLayout):
         if (password != '' and len(password) >= 6) and len(password) <= 15:
             self.animateico(self.ok)
             # self.boxPassword.add_widget(self.ok)
-            self.password.hint_text = "Contraseña"
             pass1_check = True
         else:
             self.animateico(self.wrong)
             # self.boxPassword.add_widget(self.wrong)
-            self.password.hint_text = "Contraseña minimo 6 caracteres, maximo 15"
 
             pass1_check = False
 

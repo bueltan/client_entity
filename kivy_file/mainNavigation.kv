@@ -7,13 +7,15 @@
             name: 'subscriptions'
             Carousel:
                 id: container
-            MDBottomAppBar:
-                MDToolbar:
-                    title: "Entity"
-                    icon: "message-bulleted"
-                    type: "bottom"
-                    left_action_items: [["graph", lambda x: x]]
-                    mode: "end"
+
+            MDFloatingActionButton:
+                pos_hint: {'center_x': .5, 'center_y': .1}
+                icon: "message-bulleted"
+                theme_text_color: "Custom"
+                md_bg_color: app.theme_cls.primary_color
+                #on_release:
+
+
 
 
 
