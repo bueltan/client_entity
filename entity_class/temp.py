@@ -37,7 +37,7 @@ class populateList():
         print ("Appen!")
 
 
-    #register a callback
+    #register_class a callback
 
 
 if __name__ == '__main__':

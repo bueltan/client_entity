@@ -3,7 +3,6 @@ self.file_manager = MDFileManager(exit_manager=self.exit_manager,
 self.navDrawer.open_file.on_release = lambda: self.file_manager.show('/')
 self.data_account = load_account_from_db()
 
-from querries.login_database import load_account_from_db
 
 def load_drawer(self):
     if self.data_account is not None:

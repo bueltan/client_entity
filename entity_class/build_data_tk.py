@@ -16,6 +16,7 @@ with open(dir_language, 'r') as file:
 
 dictionary = dict_l['card_subs']
 
+
 def build_data_tk(*arg):
     data_to_return = {}
     last_msg = get_oneMsg_local_db(arg[0]['lastIdMsg'])

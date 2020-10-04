@@ -1,0 +1,86 @@
+<CustomThreeLineAvatarIconListItem>:
+    source_img : ""
+    name_icon : ""
+    ImageLeftWidget:
+        source: root.source_img
+
+    IconRightWidget:
+        icon: root.name_icon
+        on_release: print("hello")
+
+<Check@MDCheckbox>:
+    group: 'group'
+    size_hint: None, None
+    size: dp(48), dp(48)
+
+<NewContact>:
+    orientation: 'vertical'
+    spacing: dp(5)
+    size_hint: 1,1
+    check_1:check_1
+    check_2:check_2
+    container_newContact:container_newContact
+    BoxLayout:
+        size_hint_Y:None
+        height:35
+        orientation: 'horizontal'
+        Check:
+            id:check_1
+            active: True
+            pos_hint:{'center_y': 0.5}
+            on_state: if self.active : root.load_fields_entity()
+        MDTextButton:
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            text: "Entity contact"
+            on_release: root.ids.check_1.active = True
+        Check:
+            id:check_2
+            pos_hint:{'center_y': 0.5}
+            on_state: if self.active : root.load_fields_wapp()
+        MDTextButton:
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            text: "Whatsapp contact"
+            on_release: root.ids.check_2.active = True
+    BoxLayout:
+        id:container_newContact
+        size_hint_y: None
+        height: root.height -35
+        orientation:'vertical'
+
+<Content>:
+    orientation: 'vertical'
+    spacing: dp(5)
+    padding: dp(10)
+
+    new_contact_btn:new_contact_btn
+    search_box:search_box
+    BoxLayout:
+        id:search_box
+        pos_hint:{'top': 1}
+        MDIconButton:
+            icon: 'magnify'
+        MDTextField:
+            id: search_field
+            hint_text: 'Search contacts'
+            on_text: root.set_list_md_icons(self.text, True)
+
+    RelativeLayout:
+        RecycleView:
+            id: rv
+            key_viewclass: 'viewclass'
+            key_size: 'height'
+            RecycleBoxLayout:
+                default_size: None, dp(90)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+
+    MDFloatingActionButton:
+        id: new_contact_btn
+        pos_hint: {'center_x': .5, 'center_y': .1}
+        icon:'plus'
+        theme_text_color: "Custom"
+        md_bg_color: app.theme_cls.primary_color
+        on_release: root.open_new_contact()
+

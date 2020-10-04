@@ -1,13 +1,13 @@
 import os
 from kivy.loader import Loader
 
-from kivy.core.window import Window
 from kivymd import images_path
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
-from entity_class.login import Login
-from entity_class.register import Register
+from login_class.login import Login
+from register_class.register import Register
 from entity_class.mainNavigation import mainNavigation
+
 
 class MainWid(ScreenManager):
     def __init__(self, **kwargs):
@@ -45,15 +45,18 @@ class MainWid(ScreenManager):
 class MainApp(MDApp):
     def build(self):
         Loader.loading_image = f"{images_path}transparent.png"
-        self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/register.kv")
-        self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/login.kv")
+        self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/register_class/register.kv")
+        self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/login_class/login.kv")
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/mainNavigation.kv")
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/messageFrame.kv")
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/cardSubscription.kv")
+        self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/new_contact/dialog_contact.kv")
+
+
 
         self.theme_cls.primary_palette = "Blue"  # "Purple", "Red"
         self.theme_cls.theme_style = "Light"  # "Light"
-        self.theme_cls.primary_hue = "500"  # "500"
+        self.theme_cls.primary_hue = "700"  # "500"
         return MainWid()
 
     def on_start(self):

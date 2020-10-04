@@ -1,0 +1,89 @@
+<Login>:
+    user: user_input
+    password: password_input
+    keepOpen: keepOpen
+    ck_keepOpen:ck_keepOpen
+    newPass:newPass
+    BoxLayout:
+        orientation: 'vertical'
+        rows: 2
+        size: root.size
+        MDIcon:
+            size_hint : (1, .2)
+            halign: "center"
+            icon: "graph"
+            font_size: "60sp"
+            theme_text_color:"Custom"
+            text_color: app.theme_cls.primary_color
+        AnchorLayout:
+            anchor_x:'center'
+            anchor_y:'center'
+            size_hint : (1, .8)
+            BoxLayout:
+                orientation:'vertical'
+                size_hint_y: .9
+                size_hint_x: .9
+                size_hint_min_x: 250
+                size_hint_min_y: 450
+                size_hint_max_x: 525
+                size_hint_max_y: 625
+                spacing: 30
+                MDCard:
+                    radius: 5, 5, 5, 5
+                    elevation: .0
+                    BoxLayout:
+                        orientation:'vertical'
+                        padding: 10
+                        spacing: 30
+                        MDLabel:
+                            size_hint_y:.12
+                            text:'Sign in to Entity'
+                            font_style:"H5"
+                            halign:'center'
+                            theme_text_color: "Custom"
+                            text_color: app.theme_cls.primary_color
+                        MDTextField:
+                            size_hint_y:.24
+                            size_hint_max_y: 70
+                            id: user_input
+                            write_tab: False
+                            hint_text: "Account name or email"
+                        MDTextField:
+                            size_hint_y:.24
+                            size_hint_max_y: 70
+                            id: password_input
+                            write_tab: False
+                            hint_text: "Password"
+                            password:True
+                        BoxLayout:
+                            size_hint_y:.12
+                            orientation: 'horizontal'
+                            rows: 2
+                            MDCheckbox:
+                                id: ck_keepOpen
+                                pos_hint: {'center_x': 0, 'center_y': 1}
+
+                                size_hint: None, None
+                                size: "28dp", "28dp"
+                                active: False
+                            MDTextButton:
+                                pos_hint: {'center_x': 0, 'center_y': 1}
+                                id: keepOpen
+                                text: "Remember password and user"
+
+                MDRaisedButton:
+                    text: 'In'
+                    size_hint_x : 1
+                    on_press: root.go_in()
+                MDTextButton:
+                    id: newPass
+                    text: "Did you forget your password ? "
+                MDTextButton:
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    text: 'Sign up'
+                    on_release:root.go_to_register()
+
+
+
+
+

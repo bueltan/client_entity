@@ -1,14 +1,16 @@
 import requests
+from kivymd.uix.snackbar import Snackbar
 
-server_http = 'http://192.168.0.13:5000/' #'http://192.168.0.22:5000/'
+server_http = 'http://localhost:5000/' #'http://192.168.0.22:5000/'
 base_url_http = server_http + 'graphql'#
-base_url_ws = 'ws://192.168.0.13:5000/subscriptions'#'ws://192.168.0.22:5000/subscriptions'
+base_url_ws = 'ws://localhost:5000/subscriptions'#'ws://192.168.0.22:5000/subscriptions'
 headers = {'content-type': 'application/json'}
 
 def send_payload(payload):
-    response = requests.post(base_url_http, headers=headers, data=payload)
-    json = response.json()
-    
-    if response.status_code == 200:
-        return json
-    print(payload)
+    try:
+        response = requests.post(base_url_http, headers=headers, data=payload)
+        json = response.json()
+        if response.status_code == 200:
+            return json
+    except:
+       return False

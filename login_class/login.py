@@ -1,21 +1,8 @@
 from kivymd.uix.boxlayout import MDBoxLayout
-from querries.login_payload import check_login
-from kivymd.uix.dialog import MDDialog
-from querries.login_database import save_account, load_account_from_db
-from querries.login_payload import get_data_account
+from kivymd.uix.snackbar import Snackbar
 
-
-class MessagePopup():
-    dialog = None
-
-    def show_alert_dialog(self, text):
-        if not self.dialog:
-            self.dialog = MDDialog(
-                text=text,
-                radius=[20, 7, 20, 7]
-            )
-
-        self.dialog.open()
+from login_class.login_database import load_account_from_db, save_account
+from login_class.login_payload import check_login, get_data_account
 
 
 class Login(MDBoxLayout):
@@ -28,13 +15,13 @@ class Login(MDBoxLayout):
             self.ck_keepOpen.active = account.keepOpen
         except:
             pass
-        if self.ck_keepOpen.active == True:
+        if self.ck_keepOpen.active:
             if account:
                 self.user.text = account.idName.split(".")[1]
                 self.password.text = account.password
 
     def change_ck(self):
-        if self.ck_keepOpen.active == False:
+        if not self.ck_keepOpen.active:
 
             self.ck_keepOpen.active = True
         else:
@@ -43,22 +30,22 @@ class Login(MDBoxLayout):
     def go_in(self):
         # DELETE THIS DON'T FORGET
         connection = True
-
         user = "." + self.user.text
         user = user.lower()
         password = self.password.text
         id = check_login(user, password)
         if id:
-            self.mainwid.goto_mainNavigation(account_name=user ,account_id = id)
+            self.mainwid.goto_mainNavigation(account_name=user, account_id=id)
             keepOpen = self.ck_keepOpen.active
             if connection:
                 data = get_data_account(id)
                 data['id'] = id
                 data['keepOpen'] = keepOpen
                 save_account(data)
-        else:
-            self.menssage = MessagePopup()
-            self.menssage.show_alert_dialog('UserName or password is wrong')
+        if id is None:
+            Snackbar(text="Incorrect user name or password", padding="20dp").show()
+        if id is False:
+            Snackbar(text="lost connection", padding="20dp").show()
 
     def go_to_register(self):
         self.mainwid.goto_register()
