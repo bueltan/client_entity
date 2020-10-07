@@ -7,6 +7,7 @@ from querries import tickets_database
 from ast import literal_eval
 from path import dir_settings_file
 
+
 def read_in_file_global_var():
     with open(dir_settings_file, 'r') as file:
         try: data = literal_eval(file.read())
@@ -50,7 +51,6 @@ def sync_tickets(nodes, my_id):
                   + '\\"){edges{node {id, idTk, idCode, node2, node3, node4,name, timestamp, image, phone,lastIdMsg}}}}"}'
 
     json = send_payload(payload)
-
     if json is not None:
         if json['data']['ticketList']['edges'] != []:
             source = (json['data']['ticketList']['edges'])

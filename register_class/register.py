@@ -14,18 +14,13 @@ class Register(MDBoxLayout):
         self.email.bind(focus=self.on_focus)
 
     def on_focus(self, instance, value):
-
         if value:
             pass
         else:
-            if instance == self.user and self.user.text != '':
-                self.check_name()
-            if instance == self.password and self.password.text != '':
-                self.check_pass1()
-            if instance == self.second_password:
-                self.check_pass2()
-            if instance == self.email and self.email.text != '':
-                self.check_email()
+            if instance == self.user and self.user.text != '': self.check_name()
+            if instance == self.password and self.password.text != '': self.check_pass1()
+            if instance == self.second_password: self.check_pass2()
+            if instance == self.email and self.email.text != '': self.check_email()
 
     def check_name(self):
         user = "." + self.user.text.lower()
@@ -37,7 +32,6 @@ class Register(MDBoxLayout):
 
         if len(user) < 5 or len(user) > 15:
             Snackbar(text=" Account name min 5, max: 15 ", padding="20dp").show()
-
             user_check = False
             return user_check
 
@@ -46,15 +40,13 @@ class Register(MDBoxLayout):
             user_check = False
             return user_check
 
-        exist = to_check(user, 'checkIdName', 'idName')
-
-
-        if exist != None and user != '':
+        exist = to_check(user, 'checkIdNameAccount', 'idName')
+        if exist is not None and exist is not False and user != '':
             Snackbar(text="Account name in use", padding="20dp").show()
             user_check = False
             return user_check
 
-        if exist == None and len(user) >= 5:
+        if exist is None and len(user) >= 5:
             user_check = True
             return user_check
 
@@ -74,7 +66,6 @@ class Register(MDBoxLayout):
         if passwordSecond != self.password.text:
             Snackbar(text="password don't coincident", padding="20dp").show()
             pass2_check = False
-
             return pass2_check
 
         if ((passwordSecond != '' and len(passwordSecond) >= 6) and len(
@@ -83,13 +74,10 @@ class Register(MDBoxLayout):
         else:
             pass2_check = False
         self.second_password.hint_text = "Repeat password"
-
         return pass2_check
 
     def check_email(self):
-
         email = self.email.text.lower()
-
         if email.find(" ") > -1:
             Snackbar(text="User name field without blanks", padding="20dp").show()
             email_check = False
@@ -105,20 +93,19 @@ class Register(MDBoxLayout):
             email_check = False
             return email_check
 
-        exist = to_check(email, 'checkEmail', 'email')
+        exist = to_check(email, 'checkEmailAccount', 'email')
 
         if exist is not None and exist is not False:
             Snackbar(text="this email is in use", padding="20dp").show()
             email_check = False
             return email_check
 
-        if exist == None:
+        if exist is None:
             self.email.helper_text = "Email"
             user_check = True
             return user_check
 
     def to_create_account(self):
-
         user = "." + self.user.text
         password = self.password.text
         email = self.email.text
@@ -127,25 +114,13 @@ class Register(MDBoxLayout):
         B = self.check_pass1()
         C = self.check_pass2()
         D = self.check_email()
-
-        if A == True and B == True and C == True and D == True:
+        if A is True and B is True and C is True and D is True:
             id = create_account(user, password, email)
-
-            if id != None:
-                Snackbar(text="Account created, check you email for validate ", padding="20dp").show()
-                return
+            if id is not None: Snackbar(text="Account created, check you email for validate ", padding="20dp").show()
         else:
-            if A == False:
-                Snackbar(text="Account name invalidate", padding="20dp").show()
-                return
-            if B == False or D == False:
-                Snackbar(text="Password incorrect", padding="20dp").show()
-
-                return
-
-            if C == False:
-                Snackbar(text="Email invalidate", padding="20dp").show()
-                return
+            if A is False: Snackbar(text="Account name invalidate", padding="20dp").show()
+            if B is False or D is False: Snackbar(text="Password incorrect", padding="20dp").show()
+            if C is False: Snackbar(text="Email invalidate", padding="20dp").show()
 
     def go_to_login(self):
         self.mainwid.goto_login()

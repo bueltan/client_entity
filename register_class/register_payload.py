@@ -10,10 +10,10 @@ def to_check(value, resolve, field):
         if json['data'][resolve] is not None and not False:
             id = (json['data'][resolve][field])
             return id
-    if json is None:
-        return None
-    if json is False:
-        return False
+
+    else:
+        return json
+
 
 def create_account(name, password, email):
     payload = '{"query": "mutation{createAccount(input:{idName:\\"' + name + '\\",password:\\"' + password + '\\",email:\\"' + email + '\\"}){account{id}}}"}'
@@ -21,7 +21,5 @@ def create_account(name, password, email):
     if json is not None and not False:
         id = (json['data']['createAccount']['account']['id'])
         return id
-    if json is None:
-        return None
-    if json is False:
-        return False
+    else:
+        return json

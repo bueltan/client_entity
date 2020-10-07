@@ -2,23 +2,21 @@
 """ mainNavigation """
 
 from datetime import datetime
-from kivy.metrics import dp
-from kivymd.material_resources import DEVICE_TYPE
-
+from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
-from kivymd.uix.dialog import MDDialog
 from rx import Observable
 import multiprocessing
 from rx.concurrency import ThreadPoolScheduler
 from kivymd.uix.navigationdrawer import NavigationLayout
 from database import base
 from entity_class.cardSubscription import DataSubscription, CardSubscription
-from new_contact.dialog_contact import CarouselContacts
 from querries import sub_entity_payload
 from ast import literal_eval
 from general_functions import functions
 from threading import current_thread
 from path import dir_language
+from new_contact.screen_contact import Contacts
+from kivymd.uix.boxlayout import MDBoxLayout
 
 session = base.Session()
 
@@ -37,34 +35,11 @@ class mainNavigation(NavigationLayout):
     def __init__(self):
         super(mainNavigation, self).__init__()
 
-    def noneDialog(self, *args):
-        self.dialog = None
-
-    def show_dialog_contacts(self):
-        data =[]
-
-        if not self.dialog:
-            self.dialog = MDDialog(
-
-            radius=[7, 7, 7, 7],
-                title="Contacts",
-                type="custom",
-                content_cls=CarouselContacts(data),
-                on_dismiss=self.noneDialog,
-            )
-            if self.dialog.size_hint == [1, 1] and DEVICE_TYPE == "mobile":
-                self.dialog.size_hint = (None, None)
-                self.dialog.width = dp(280)
-
-            elif self.dialog.size_hint == [1, 1] and DEVICE_TYPE == "desktop":
-                self.dialog.size_hint = (None, None)
-                self.dialog.width = dp(100)
-
-            self.dialog.open()
-
-    def dialog_close(self, *args):
-        self.dialog.dismiss(force=True)
-        self.dialog = None
+    def show_screen_contacts(self):
+        wid = Screen(name='screen_contact')
+        wid.add_widget(Contacts())
+        self._screen_manager.add_widget(wid)
+        self._screen_manager.current = 'screen_contact'
 
 
     def get_subscription(self):

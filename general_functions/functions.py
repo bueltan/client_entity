@@ -1,3 +1,4 @@
+import base64
 import re
 import shutil
 
@@ -46,6 +47,13 @@ def get_nodes(subscriptions):
         nodes['node2'] = "@" + subscriptions.split("@")[1]
 
     return nodes, entity_id_code
+
+
+def get_code_entity(id_name):
+    id_name = id_name.encode('ascii')
+    id_code = base64.standard_b64encode(id_name)
+    id_code = id_code.decode("utf-8")
+    return id_code
 
 
 def show_last_msg(payload, word):
@@ -117,3 +125,5 @@ def save_dir_in_db(dir, table):
 
 def copy(src_file, dest_file):
     shutil.copy2(src_file, dest_file, follow_symlinks=True)
+
+
