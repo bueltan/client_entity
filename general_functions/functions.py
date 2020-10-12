@@ -3,57 +3,35 @@ import re
 import shutil
 
 
-def detect_nodes(subscription):
-    nodes_contains = {'id_code': False, 'node2': False, 'node3': False, 'node4': False}
-    if subscription.find(".") != -1:
-        nodes_contains['node4'] = True
-        subscription.splitlines()
-    if subscription.find("#") != -1:
-        nodes_contains['node3'] = True
-    if subscription.find("@") != -1:
-        nodes_contains['node2'] = True
-    if subscription.find("@") != -1 and subscription.find("@") != 0:
-        nodes_contains['id_code'] = True
-    return nodes_contains
 
+def get_nodes(subscription):
+    nodes = {'node2': '@', 'node3': '#', 'node4': '.'}
+    for n in nodes:
+        if subscription.find(nodes[n]) is not -1:
+            nodes[n] = nodes[n] + subscription.split(nodes[n])[1]
+            if nodes[n].find("#") is not -1 or nodes[n].find("@") is not -1:
+                nodes[n] = nodes[n].split(".")[0]
+            if nodes[n].find("@") is not -1:
+                nodes[n] = nodes[n].split("#")[0]
+        else:
+            nodes[n] = ''
+    return nodes
 
-def get_nodes(subscriptions):
-    nodes = {'id_code': '', 'node2': '', 'node3': '', 'node4': ''}
-    entity_id_code = False
-    nodes_contains = detect_nodes(subscriptions)
-    if nodes_contains['node4'] == True and nodes_contains['node3'] == False:
-        nodes['node4'] = subscriptions
-    if nodes_contains['node3'] == True and nodes_contains['node4'] == False:
-        nodes['node3'] = "#" + subscriptions.split("#")[1]
-    if nodes_contains['node3'] == True and nodes_contains['node4'] == True:
-        sub = subscriptions.split("#")[1]
-        nodes['node3'] = "#" + sub.split(".")[0]
-    if nodes_contains['node2'] == True and nodes_contains['node3'] == False and nodes_contains['id_code'] == False:
-        nodes['node2'] = subscriptions
-    if nodes_contains['node2'] == True and nodes_contains['node3'] == True and nodes_contains['id_code'] == False:
-        nodes['node2'] = subscriptions.split("#")[0]
-    if nodes_contains['node2'] == True and nodes_contains['node3'] == True and nodes_contains['id_code'] == True:
-        sub = subscriptions.split("#")[0]
-        nodes['node2'] = "@" + sub.split("@")[1]
-    if nodes_contains['node4'] == True and nodes_contains['node3'] == True:
-        nodes['node4'] = "." + subscriptions.split(".")[1]
-    if nodes_contains['id_code'] == True:
-        nodes['id_code'] = subscriptions.split("@")[0]
-        try:
-            s = int(nodes['id_code'])
-        except:
-            entity_id_code = True
-    if nodes_contains['id_code'] == True and nodes_contains['node3'] == False:
-        nodes['node2'] = "@" + subscriptions.split("@")[1]
-
-    return nodes, entity_id_code
-
+print(get_nodes('@Cyberlink#ventas.denis'))
+print(get_nodes('@Cyberlink#ventas'))
+print(get_nodes('@Cyberlink.denis'))
+print(get_nodes('@Cyberlink'))
+print(get_nodes('.denis'))
 
 def get_code_entity(id_name):
     id_name = id_name.encode('ascii')
     id_code = base64.standard_b64encode(id_name)
     id_code = id_code.decode("utf-8")
     return id_code
+
+
+def decode(id):
+     return (base64.standard_b64decode(id)).decode("utf-8").split(":")[1]
 
 
 def show_last_msg(payload, word):
@@ -125,5 +103,4 @@ def save_dir_in_db(dir, table):
 
 def copy(src_file, dest_file):
     shutil.copy2(src_file, dest_file, follow_symlinks=True)
-
 

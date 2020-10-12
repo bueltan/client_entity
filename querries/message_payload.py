@@ -13,7 +13,8 @@ from querries import message_database
 
 
 def get_message(session, id, timestamp):
-    payload = '{"query": "{listMessage (ticketsId:\\"' + id + '\\", timestamp:\\"'+timestamp+'\\" ){edges{node {ticketsId,id,type,text,fromMe,mime,url,caption,filename,payload,vcardList,timestamp}}}}"}'
+    payload = '{"query": "{listMessage (ticketsId:\\"' + id + '\\", timestamp:\\"'+timestamp+'\\" )' \
+              '{edges{node {ticketsId,id,type,text,fromMe,mime,url,caption,filename,payload,vcardList,timestamp}}}}"}'
     json = send_payload(payload)
 
     if json is not None:

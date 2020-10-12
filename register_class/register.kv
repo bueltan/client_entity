@@ -1,4 +1,5 @@
 <Register>:
+    name: name_input
     user: user_input
     password: password_input
     email : email_input
@@ -8,7 +9,7 @@
         rows: 2
         size: root.size
         MDIcon:
-            size_hint : (1, .2)
+            size_hint : (1, .18)
             halign: "center"
             icon: "graph"
             font_size: "60sp"
@@ -17,13 +18,13 @@
         AnchorLayout:
             anchor_x:'center'
             anchor_y:'center'
-            size_hint : (1, .8)
+            size_hint : (1, .82)
             BoxLayout:
                 orientation:'vertical'
                 size_hint_y: .9
                 size_hint_x: .9
                 size_hint_min_x: 250
-                size_hint_min_y: 450
+                size_hint_min_y: 500
                 size_hint_max_x: 525
                 size_hint_max_y: 625
                 spacing: 30
@@ -42,13 +43,22 @@
                             theme_text_color: "Custom"
                             text_color: app.theme_cls.primary_color
                         MDTextField:
+                            id: name_input
+                            size_hint_y:.22
+                            write_tab: False
+                            hint_text:'Your name'
+                            max_text_length: 15
+                            size_hint_min_y: 60
+                            size_hint_max_y: 70
+
+                        MDTextField:
                             id: user_input
                             size_hint_y:.22
                             write_tab: False
-                            hint_text:'User name'
-
+                            hint_text:'Account name'
                             max_text_length: 15
                             size_hint_min_y: 60
+                            size_hint_max_y: 70
                         MDTextField:
                             id: password_input
                             size_hint_y:.22
@@ -57,7 +67,7 @@
                             password:True
                             max_text_length: 15
                             size_hint_min_y: 60
-
+                            size_hint_max_y: 70
                         MDTextField:
                             id: second_password_input
                             write_tab: False
@@ -66,12 +76,15 @@
                             password:True
                             max_text_length: 15
                             size_hint_min_y: 60
+                            size_hint_max_y: 70
                         MDTextField:
                             id: email_input
                             write_tab: False
                             hint_text: "Email"
                             size_hint_y:.22
                             size_hint_min_y: 60
+                            size_hint_max_y: 70
+
 
 
                 MDRaisedButton:

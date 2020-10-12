@@ -50,7 +50,7 @@ class MainApp(MDApp):
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/mainNavigation.kv")
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/messageFrame.kv")
         self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/kivy_file/cardSubscription.kv")
-        self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/new_contact/screen_contact.kv")
+        self.load_kv(f"{os.environ['ENTITY_CLIENT_ROOT']}/contact_class/screen_contact.kv")
 
 
 

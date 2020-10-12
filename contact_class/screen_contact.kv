@@ -114,7 +114,7 @@
             md_bg_color: app.theme_cls.primary_color
             on_release: root.open_new_contact()
 
-<newContactEntity>:
+<NewContactEntity>:
     data_input:data_input
     orientation:'vertical'
     spacing:dp(10)
@@ -126,4 +126,4 @@
         hint_text: "Name account, email, or entity"
     MDRaisedButton:
         text: 'Check'
-        on_press: root.check_and_get()
+        on_press: root.check_input()

@@ -43,9 +43,9 @@ class Login(MDBoxLayout):
                 data['keepOpen'] = keepOpen
                 save_account(data)
         if id is None:
-            Snackbar(text="Incorrect user name or password", padding="20dp").show()
+            Snackbar(text="Incorrect user name or password", padding="20dp").open()
         if id is False:
-            Snackbar(text="lost connection", padding="20dp").show()
+            Snackbar(text="lost connection", padding="20dp").open()
 
     def go_to_register(self):
         self.mainwid.goto_register()

@@ -33,7 +33,7 @@ def write_in_file_global_var(sub, **kwargs):
 
 
 def sync_tickets(nodes, my_id):
-    sub = nodes['id_code'] + nodes['node2'] + nodes['node3'] + nodes['node4']
+    sub = nodes['node2'] + nodes['node3'] + nodes['node4']
     file_var = read_in_file_global_var()
     last_sync_timestamp = 0
 
@@ -42,8 +42,7 @@ def sync_tickets(nodes, my_id):
             last_sync_timestamp = file_var[sub]['last_sync_timestamp']
     now_timestamp = round(time.time())
     write_in_file_global_var(sub, last_sync_timestamp=now_timestamp)
-    payload = '{"query": "{ticketList(idCode:\\"' + str(nodes['id_code']) \
-                  + '\\", node2:\\"' + nodes['node2'] \
+    payload = '{"query": "{ticketList(node2:\\"' + nodes['node2'] \
                   + '\\", node3:\\"' + nodes['node3'] \
                   + '\\", node4:\\"' + nodes['node4'] \
                   + '\\", idTk:\\"' + my_id \

@@ -1,7 +1,7 @@
 from kivymd.uix.list import ThreeLineAvatarIconListItem
 from kivymd.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
-from .payload_contact import check_if_exist
+from contact_class.funtions_contact import check_and_get
 
 
 class CustomThreeLineAvatarIconListItem(ThreeLineAvatarIconListItem):
@@ -11,41 +11,13 @@ class CustomThreeLineAvatarIconListItem(ThreeLineAvatarIconListItem):
     tertiary_text = StringProperty()
 
 
-class newContactEntity(BoxLayout):
+class NewContactEntity(BoxLayout):
      def __init__(self):
-        super(newContactEntity, self).__init__()
+        super(NewContactEntity, self).__init__()
 
-     def check_and_get(self):
-        data = self.data_input.text
-        data_contact = False
-        if data:
-            if data[0] == '@' and len(data) >= 6 :
-                """ the data is entity, check for nodes"""
-                data_contact = check_if_exist(data)
-                print(" the data is entity, check for nodes")
-            else:
-                if data[0] != '.' and len(data) >= 5:
-                    print(data.find("@") )
-                    if data.find("@") != -1 and data.find(".") != 1 and data.find("#") == -1:
-                        """ the data is email get account """
-                        #data_contact = chek_for_email
-                        print(" the data is email get account ")
-                    elif data.find("@") == -1 and data.find(".") == -1:
-                        """ the data is account name but without "." """
-                        # atach "." and data_contact = get_account
-                        print(" the data is account name but without ")
-                    else:
-                        print(" the data is not correct")
-                        data_contact = False
+     def check_input(self):
+        check_and_get(self.data_input.text)
 
-                elif data.find("@") == -1 and len(data) >= 6:
-                    #data_contact = get_account
-                    print(" the data is account name ")
-                else:
-                    print(" the data is not correct ")
-                    data_contact = False
-        else:
-            print("the data is enty")
 
 
 class Contacts(BoxLayout):
@@ -72,7 +44,7 @@ class NewContact(BoxLayout):
 
     def load_fields_entity(self):
         self.container_newContact.clear_widgets()
-        self.container_newContact.add_widget(newContactEntity())
+        self.container_newContact.add_widget(NewContactEntity())
 
     def load_fields_wapp(self):
         self.container_newContact.clear_widgets()
@@ -89,7 +61,7 @@ class ContactList(BoxLayout):
         create_new = True
 
         for i in self.mainwind.carousel_contacts.slides:
-            if str(type(i)) == "<class 'new_contact.screen_contact.NewContact'>":
+            if str(type(i)) == "<class 'contact_class.screen_contact.NewContact'>":
                 print("go to screen new contacts")
                 self.mainwind.carousel_contacts.load_slide(i)
                 create_new = False

@@ -9,7 +9,7 @@
         rows: 2
         size: root.size
         MDIcon:
-            size_hint : (1, .2)
+            size_hint : (1, .18)
             halign: "center"
             icon: "graph"
             font_size: "60sp"
@@ -18,13 +18,13 @@
         AnchorLayout:
             anchor_x:'center'
             anchor_y:'center'
-            size_hint : (1, .8)
+            size_hint : (1, .82)
             BoxLayout:
                 orientation:'vertical'
                 size_hint_y: .9
-                size_hint_x: .9
+                size_hint_x: .95
                 size_hint_min_x: 250
-                size_hint_min_y: 450
+                size_hint_min_y: 470
                 size_hint_max_x: 525
                 size_hint_max_y: 625
                 spacing: 30
@@ -43,12 +43,14 @@
                             text_color: app.theme_cls.primary_color
                         MDTextField:
                             size_hint_y:.24
+                            size_hint_min_y: 60
                             size_hint_max_y: 70
                             id: user_input
                             write_tab: False
                             hint_text: "Account name or email"
                         MDTextField:
                             size_hint_y:.24
+                            size_hint_min_y: 60
                             size_hint_max_y: 70
                             id: password_input
                             write_tab: False

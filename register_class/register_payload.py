@@ -15,8 +15,8 @@ def to_check(value, resolve, field):
         return json
 
 
-def create_account(name, password, email):
-    payload = '{"query": "mutation{createAccount(input:{idName:\\"' + name + '\\",password:\\"' + password + '\\",email:\\"' + email + '\\"}){account{id}}}"}'
+def create_account(name, user, password, email):
+    payload = '{"query": "mutation{createAccount(input:{name:\\"' + name + '\\",idName:\\"' + user + '\\",password:\\"' + password + '\\",email:\\"' + email + '\\"}){account{id}}}"}'
     json = send_payload(payload)
     if json is not None and not False:
         id = (json['data']['createAccount']['account']['id'])

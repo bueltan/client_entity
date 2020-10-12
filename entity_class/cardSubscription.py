@@ -1,5 +1,5 @@
-
 """DataSubscription """
+
 from ast import literal_eval
 
 from kivy.properties import StringProperty
@@ -24,37 +24,29 @@ class DataSubscription:
         self.my_id_name = args[1]
         for i in self.data_sub['origen']:
             if i == 'entity':
-                id_code = self.data_sub['origen']['entity']
+                id_code = ""
                 self.data_sub['id_code'] = id_code
             if i == 'whatsapp':
-                id_code = self.data_sub['origen']['whatsapp']
+                id_code = ""
                 self.data_sub['id_code'] = id_code
-            sync_tickets(self.data_sub,self.my_id)
+            sync_tickets(self.data_sub, self.my_id)
 
         if len(self.data_sub['origen']) > 1:
             self.load_tk_in_sub()
         else :
-            if id_code != '':
-                self.load_tk_in_sub(id_code=id_code)
-            else:
-                self.load_tk_in_sub(id_user=self.my_id,node4 = self.my_id_name , id_code=id_code)
+            self.load_tk_in_sub(id_user=self.my_id, node4 = self.my_id_name)
 
         Session.remove()
 
-    def load_tk_in_sub(self, id_code=None, id_user=None, node4 = None):
+    def load_tk_in_sub(self, id_user=None, node4 = None):
 
         if id_user:
             print("id_user", id_user, node4)
             tickets = self.session.query(ModelTickets).filter((ModelTickets.idTk==id_user)|(ModelTickets.node4==node4))
 
-        if id_code == None:
-            tickets = self.session.query(ModelTickets)\
-                .filter_by(node2=self.data_sub['node2'],
-                           node3=self.data_sub['node3'], node4=self.data_sub['node4'])
-        else:
-            tickets = self.session.query(ModelTickets)\
-                .filter_by(idCode=id_code, node2=self.data_sub['node2'],
-                           node3=self.data_sub['node3'], node4=self.data_sub['node4'])
+        tickets = self.session.query(ModelTickets)\
+            .filter_by(node2=self.data_sub['node2'],
+                       node3=self.data_sub['node3'], node4=self.data_sub['node4'])
 
         self.mutation_data_tk(tickets)
 
@@ -90,11 +82,9 @@ class CardSubscription(MDCard):
                 self.origen.add_widget(MDIconButton(icon='whatsapp', user_font_size="20sp"))
 
         self.set_list_data()
-        if len(self.data_sub['origen']) == 2:
-            self.data_sub['id_code'] = '0'
-            self.subscription_nodes(**self.data_sub)
-        else:
-            self.subscription_nodes(**self.data_sub)
+
+
+        self.subscription_nodes(**self.data_sub)
 
     def callback(self, _id, data):
         data = data['payload']['data']['getTK']
@@ -147,7 +137,7 @@ class CardSubscription(MDCard):
                     add_item_in_recycleView(self.data_tk[i])
 
     def subscription_nodes(self, **kwargs):
-        variables = {'id_code': kwargs['id_code'], 'node_2': kwargs['node2'],
+        variables = { 'node_2': kwargs['node2'],
                      'node_3': kwargs['node3'], 'node_4': kwargs['node4']}
 
         subscriptions(self).getTK(variables)

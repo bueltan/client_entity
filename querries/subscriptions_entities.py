@@ -15,8 +15,7 @@ class subscriptions():
 
     def getTK(self, variables):
         query = """
-        subscription($id_code: String!, $node_2: String!, $node_3: String!, $node_4: String!, $id_tk, $timestamp){getTK(
-          idCode:$id_code 
+        subscription($node_2: String!, $node_3: String!, $node_4: String!, $id_tk, $timestamp){getTK(
           node2:$node_2
           node3:$node_3
           node4:$node_4
