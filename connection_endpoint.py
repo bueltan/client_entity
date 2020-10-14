@@ -10,7 +10,6 @@ def send_payload(payload):
     try:
         response = requests.post(base_url_http, headers=headers, data=payload)
         json = response.json()
-        if response.status_code == 200:
-            return json
+        return json
     except:
-       return False
+        return False

@@ -17,11 +17,6 @@ def get_nodes(subscription):
             nodes[n] = ''
     return nodes
 
-print(get_nodes('@Cyberlink#ventas.denis'))
-print(get_nodes('@Cyberlink#ventas'))
-print(get_nodes('@Cyberlink.denis'))
-print(get_nodes('@Cyberlink'))
-print(get_nodes('.denis'))
 
 def get_code_entity(id_name):
     id_name = id_name.encode('ascii')

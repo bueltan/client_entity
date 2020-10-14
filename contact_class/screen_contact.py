@@ -1,7 +1,7 @@
 from kivymd.uix.list import ThreeLineAvatarIconListItem
 from kivymd.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
-from contact_class.funtions_contact import check_and_get
+from contact_class.funtions_contact import build_contact
 
 
 class CustomThreeLineAvatarIconListItem(ThreeLineAvatarIconListItem):
@@ -16,9 +16,8 @@ class NewContactEntity(BoxLayout):
         super(NewContactEntity, self).__init__()
 
      def check_input(self):
-        check_and_get(self.data_input.text)
-
-
+        result = build_contact(self.data_input.text)
+        print(result)
 
 class Contacts(BoxLayout):
     def __init__(self):

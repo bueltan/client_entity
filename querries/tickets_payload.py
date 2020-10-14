@@ -45,7 +45,6 @@ def sync_tickets(nodes, my_id):
     payload = '{"query": "{ticketList(node2:\\"' + nodes['node2'] \
                   + '\\", node3:\\"' + nodes['node3'] \
                   + '\\", node4:\\"' + nodes['node4'] \
-                  + '\\", idTk:\\"' + my_id \
                   + '\\", timestamp:\\"' + str(last_sync_timestamp) \
                   + '\\"){edges{node {id, idTk, idCode, node2, node3, node4,name, timestamp, image, phone,lastIdMsg}}}}"}'
 

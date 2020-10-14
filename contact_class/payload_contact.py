@@ -1,75 +1,102 @@
-from general_functions.functions import get_nodes, get_code_entity
+from general_functions.functions import get_nodes
 from connection_endpoint import send_payload
 
 
-def to_check(value, resolve, field):
-    payload = '{"query": "{' + resolve + ' (' + field + ':\\"' + value + '\\"){' + field + '}}"}'
+def to_check(value, resolve,field0, field1):
+    payload = '{"query": "{' + resolve + ' (' + field0 + ':\\"' + value + '\\"){' + field1 + '}}"}'
     json = send_payload(payload)
+    print("payload:", payload)
+    print("json",json)
+
     if json:
-        if json['data'][resolve] is not None and not False:
-            value = (json['data'][resolve][field])
-            return True, value
+        if 'errors' in json:
+            return None
+        if json['data'][resolve] == None:
+            value = None
+        else:
+            value = (json['data'][resolve][field1])
     else:
-        return json, False
+        return False
+    return value
 
 
 def check_node3(entity, area_name):
-    payload = '{"query": "{ checkNameArea (fkIdEntity:\\"' + entity + '\\" areaName:\\"' + area_name + '\\"  ){id}}"}'
+    payload = '{"query":"{checkNameArea(fkIdEntity:' \
+              '\\"' + entity + '\\"nameArea:\\"' + area_name + '\\"){id}}"}'
     json = send_payload(payload)
+
     if json:
-        if json['data']['checkNameArea'] is not None and not False:
+        if 'errors' in json:
+            return None
+        if json['data']['checkNameArea'] == None:
+            value = None
+        if json['data']['checkNameArea']:
             value = (json['data']['checkNameArea']['id'])
-            return True, value
     else:
-        return json, False
+        return False
+    return value
 
+def check_node4(**kwargs):
+    id_name = kwargs.get('node4')
+    id_area = kwargs.get('node3')
+    entity = kwargs.get('node2')
+    if id_area:
+        payload = '{"query":"{checkMemberInArea(fkIdArea:\\"' + id_area\
+                  + '\\", idNameAccountMember: \\"' + id_name + '\\"){edges{node{id}}}}"}'
+        resolve = 'checkMemberInArea'
+    else:
+        payload = '{"query": "{checkMemberInEntity (idNameEntity: \\"' + entity\
+                  + '\\", idNameAccountMember:\\"' + id_name + '\\"){edges{node{id}}}}"}'
+        resolve = 'checkMemberInEntity'
 
-def check_node4(id_name, id_area):
-    if id_area is not None:
-        payload = '{"query":{"checkMemberInArea(fkIdArea: ' \
-                  '\\"' + id_area + '\\" idNameAccountMember: ''\\"' + id_name + '\\"){edges{node{id}}}}"}'
-        json = send_payload(payload)
-        if json:
-            if json['data']['checkMemberInArea'] is not None and not False:
-                value = (json['data']['checkMemberInArea']['id'])
-                return True, value
+    json = send_payload(payload)
+
+    if json:
+        if 'errors' in json:
+            return None
+        if len(json['data'][resolve]['edges']) == 0:
+            value = None
         else:
-            return json, False
+            result = (json['data'][resolve]['edges'])
+            value = result[0]['node']['id']
     else:
-        payload = '{"query":{"checkMemberInEntity(idNameEntity: ' \
-                  '\\"' + id_name_entity + '\\" idNameAccountMember: ''\\"' + id_name + '\\"){edges{node{id}}}}"}'
-        json = send_payload(payload)
-        if json:
-            if json['data']['checkMemberInEntity'] is not None and not False:
-                value = (json['data']['checkMemberInEntity']['id'])
-                return True, value
+        return False
+
+    return value
 
 
-def check_account(entity):
-    pass
+def check_account(id_name):
+    node4 = to_check(id_name, 'checkIdNameAccount', 'idName', 'idName')
+    return node4
+
+
+def check_account_for_email(email):
+    node4 = to_check(email, 'checkEmailAccount', 'email', 'idName')
+    return node4
 
 
 def check_if_exist(data):
     nodes = get_nodes(data)
     dict_result = {}
     for i in nodes:
-        if i == 'node2' and nodes.get(i) is not '':
-            result = to_check(nodes.get(i), 'checkEntityIdName', 'idName')
+        if i == 'node2' and nodes.get(i) != '':
+            result = to_check(nodes.get('node2'), 'checkEntityIdName', 'idName', 'idName')
             if result is False or None:
                 dict_result['node2'] = result
-                return nodes, dict_result
+                return dict_result
             else:
                 dict_result['node2'] = result
-
-        if i == 'node3' and nodes.get(i) is not '':
-            result = check_node3(nodes.get('node2'), nodes.get(i))
+        if i == 'node3' and nodes.get(i) != '':
+            result = check_node3(nodes.get('node2'), nodes.get('node3'))
             if result is False:
                 dict_result['node3'] = result
-                return nodes, dict_result
+                return dict_result
             else:
                 dict_result['node3'] = result
 
-        if i == 'node4' and nodes.get(i) is not '':
-            result = check_node4(nodes.get(i), dict_result['node3'])
+        if i == 'node4' and nodes.get(i) != '':
+            dict_result['node4'] = nodes['node4']
+            result = check_node4(**dict_result)
             dict_result['node4'] = result
+
     return dict_result
