@@ -30,15 +30,19 @@ poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 
 
 class mainNavigation(NavigationLayout):
-    dialog = None
 
     def __init__(self):
         super(mainNavigation, self).__init__()
 
     def show_screen_contacts(self):
-        wid = Screen(name='screen_contact')
-        wid.add_widget(Contacts())
-        self._screen_manager.add_widget(wid)
+
+        if self._screen_manager.has_screen('screen_contact') is False:
+            wid = Screen(name='screen_contact')
+            print("is not in screen manager")
+            screen_contact = Contacts()
+            wid.add_widget(screen_contact)
+            self._screen_manager.add_widget(wid)
+
         self._screen_manager.current = 'screen_contact'
 
     def get_subscription(self):

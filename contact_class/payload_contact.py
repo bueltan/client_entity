@@ -2,7 +2,7 @@ from general_functions.functions import get_nodes
 from connection_endpoint import send_payload
 
 
-def to_check(value, resolve,field0, field1):
+def to_check(value, resolve, field0, field1):
     payload = '{"query": "{' + resolve + ' (' + field0 + ':\\"' + value + '\\"){' + field1 + '}}"}'
     json = send_payload(payload)
     print("payload:", payload)
