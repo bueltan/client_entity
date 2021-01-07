@@ -1,7 +1,8 @@
 from kivymd.uix.list import ThreeLineAvatarIconListItem
 from kivymd.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
-from contact_class.funtions_contact import build_contact
+from contact_class.functions_contact import build_contact, data_contact
+from contact_class.payload_contact import get_profile, save_contact
 
 
 class CustomThreeLineAvatarIconListItem(ThreeLineAvatarIconListItem):
@@ -12,12 +13,33 @@ class CustomThreeLineAvatarIconListItem(ThreeLineAvatarIconListItem):
 
 
 class NewContactEntity(BoxLayout):
-     def __init__(self):
+     def __init__(self,mainwind):
         super(NewContactEntity, self).__init__()
+        self.mainwind = mainwind
 
      def check_input(self):
         result = build_contact(self.data_input.text)
-        print(result)
+        print("chenck input : build contact result:", result)
+        if result is not None:
+            self.check_ok.text = "The data input is correct"
+            self.mainwind.add_to_contact.disabled = False
+            self.check_ok.disabled = True
+            if 'node2' in result:
+                profile = get_profile("checkEntityIdName", result['node2'])
+            elif 'node4' in result:
+                profile = get_profile("checkIdNameAccount", result['node4'])
+            result.update(profile)
+            print(result)
+
+     def check_enabled(self):
+         self.check_ok.text = "Check"
+         self.mainwind.add_to_contact.disabled = True
+         self.check_ok.disabled = False
+
+class NewContactWhatsapp(BoxLayout):
+    def __init__(self, mainwind):
+        super(NewContactWhatsapp, self).__init__()
+
 
 class Contacts(BoxLayout):
     def __init__(self):
@@ -43,11 +65,15 @@ class NewContact(BoxLayout):
 
     def load_fields_entity(self):
         self.container_newContact.clear_widgets()
-        self.container_newContact.add_widget(NewContactEntity())
+        self.container_newContact.add_widget(NewContactEntity(self))
 
-    def load_fields_wapp(self):
+    def load_fields_whatsapp(self):
         self.container_newContact.clear_widgets()
+        self.container_newContact.add_widget(NewContactWhatsapp(self))
 
+    def create_contact(self):
+        print("create_contact")
+        save_contact(**data_contact)
 
 class ContactList(BoxLayout):
     def __init__(self, mainwind):
@@ -56,12 +82,10 @@ class ContactList(BoxLayout):
         self.data_tk = []
 
     def open_new_contact(self):
-        print("open_new_contact")
         create_new = True
 
         for i in self.mainwind.carousel_contacts.slides:
             if str(type(i)) == "<class 'contact_class.screen_contact.NewContact'>":
-                print("go to screen new contacts")
                 self.mainwind.carousel_contacts.load_slide(i)
                 create_new = False
                 break
@@ -99,7 +123,6 @@ class ContactList(BoxLayout):
                     "callback": lambda x: x,
                     "name": data_tk['name'],
                     # "on_release": lambda :edit_selected(id_tk=data_tk['id_tk'], new_text= data['id_tk'])
-
                 })
 
         self.ids.rv.data = []
@@ -109,6 +132,5 @@ class ContactList(BoxLayout):
                     if text.lower() in d['secondary_text'].lower() \
                             or text in d['text'].lower() or text in d['tertiary_text'].lower():
                         add_item_in_recycleView(self.data_tk[i])
-                        print("hello")
                 else:
                     add_item_in_recycleView(self.data_tk[i])

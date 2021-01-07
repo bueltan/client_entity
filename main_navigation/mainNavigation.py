@@ -9,7 +9,7 @@ import multiprocessing
 from rx.concurrency import ThreadPoolScheduler
 from kivymd.uix.navigationdrawer import NavigationLayout
 from database import base
-from entity_class.cardSubscription import DataSubscription, CardSubscription
+from main_navigation.cardSubscription import DataSubscription, CardSubscription
 from querries import sub_entity_payload
 from ast import literal_eval
 from general_functions import functions
@@ -28,14 +28,11 @@ dictionary = dict_l['card_subs']
 optimal_thread_count = multiprocessing.cpu_count()
 poo_scheduler = ThreadPoolScheduler(optimal_thread_count)
 
-
 class mainNavigation(NavigationLayout):
-
     def __init__(self):
         super(mainNavigation, self).__init__()
 
     def show_screen_contacts(self):
-
         if self._screen_manager.has_screen('screen_contact') is False:
             wid = Screen(name='screen_contact')
             print("is not in screen manager")
@@ -45,7 +42,7 @@ class mainNavigation(NavigationLayout):
 
         self._screen_manager.current = 'screen_contact'
 
-    def get_subscription(self):
+    def get_subscriptions(self):
         list_sub = []
         subscriptions = sub_entity_payload.get_subscritions(self.account_name)
         for sub in subscriptions:
@@ -55,17 +52,14 @@ class mainNavigation(NavigationLayout):
             list_sub.append(nodes_result)
         return list_sub
 
-    def create_subscriptions(self, **kwargs):
-        self.account_id = kwargs.get('account_id')
-        self.account_name = kwargs.get('account_name')
-        self.list_sub = self.get_subscription()
-        print(self.list_sub)
+    def create_list_tks(self, **kwargs):
+        self.list_sub = self.get_subscriptions()
         self.data_subscriptions = []
         self.index = 0
         Observable.from_(self.list_sub) \
-            .map(lambda i: DataSubscription(self.account_id, self.account_name, **i)) \
+            .map(lambda i: DataSubscription(kwargs.get('account_id'), kwargs.get('account_name'), **i)) \
             .map(lambda e: self.data_subscriptions.append(e))\
-            .subscribe(on_next=lambda s: self.load_next(),
+            .subscribe_on(poo_scheduler).subscribe(on_next=lambda s: self.load_next(),
                        on_completed=lambda: print(datetime.now().time()), on_error=lambda e: print(e))
 
     def load_next(self):

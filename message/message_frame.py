@@ -7,7 +7,6 @@ from kivymd.uix.slider import MDSlider
 from kivymd.uix.label import MDLabel
 from kivymd.app import MDApp
 from kivy.core.audio import SoundLoader
-from kivy.clock import Clock
 import requests
 import os
 

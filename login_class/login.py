@@ -1,11 +1,10 @@
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.snackbar import Snackbar
-
 from login_class.login_database import load_account_from_db, save_account
 from login_class.login_payload import check_login, get_data_account
 
-
 class Login(MDBoxLayout):
+    data_login = {'my_id': '', 'my_user_name':''}
     def __init__(self, mainwid, **kwargs):
         super(Login, self).__init__()
         self.mainwid = mainwid
@@ -22,7 +21,6 @@ class Login(MDBoxLayout):
 
     def change_ck(self):
         if not self.ck_keepOpen.active:
-
             self.ck_keepOpen.active = True
         else:
             self.ck_keepOpen.active = False
@@ -36,6 +34,8 @@ class Login(MDBoxLayout):
         id = check_login(user, password)
         if id:
             self.mainwid.goto_mainNavigation(account_name=user, account_id=id)
+            print("global nested")
+            Login.data_login['my_id'] = id
             keepOpen = self.ck_keepOpen.active
             if connection:
                 data = get_data_account(id)

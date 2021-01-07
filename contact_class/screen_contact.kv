@@ -6,16 +6,25 @@
     IconRightWidget:
         icon: root.name_icon
         on_release: print("hello")
-
 <Check@MDCheckbox>:
     group: 'group'
     size_hint: None, None
     size: dp(48), dp(48)
 
+<Contacts>:
+    carousel_contacts:carousel_contacts
+    MDToolbar:
+        id: toolbar
+        title: 'Contacts'
+        md_bg_color: app.theme_cls.primary_color
+        right_action_items: [['close', lambda x: root.back_to_subscriptions()]]
+    Carousel:
+        id: carousel_contacts
 <NewContact>:
     check_1:check_1
     check_2:check_2
     container_newContact:container_newContact
+    add_to_contact:add_to_contact
     padding: dp(10)
     MDCard:
         orientation: 'vertical'
@@ -45,7 +54,7 @@
             Check:
                 id:check_2
                 pos_hint:{'center_y': 0.5}
-                on_state: if self.active : root.load_fields_wapp()
+                on_state: if self.active : root.load_fields_whatsapp()
             MDTextButton:
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 text: "Whatsapp contact"
@@ -58,26 +67,16 @@
             size_hint_y: .4
             orientation:'vertical'
             MDRaisedButton:
+                id: add_to_contact
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 text: 'Add to contact'
                 disabled :True
-                #on_press: root.go_in()
-
-<Contacts>:
-    carousel_contacts:carousel_contacts
-    MDToolbar:
-        id: toolbar
-        title: 'Contacts'
-        md_bg_color: app.theme_cls.primary_color
-        right_action_items: [['close', lambda x: root.back_to_subscriptions()]]
-    Carousel:
-        id: carousel_contacts
+                on_press: root.create_contact()
 
 <ContactList>:
     new_contact_btn:new_contact_btn
     search_box:search_box
     padding: dp(10)
-
     MDCard:
         orientation: 'vertical'
         spacing: dp(5)
@@ -114,14 +113,35 @@
 
 <NewContactEntity>:
     data_input:data_input
+    check_ok:check_ok
     orientation:'vertical'
     spacing:dp(10)
     MDTextField:
-        size_hint_y:.24
+        size_hint_y:.4
         size_hint_max_y: 60
         id: data_input
         write_tab: False
         hint_text: "Name account, email, or entity"
+        on_text: root.check_enabled()
     MDRaisedButton:
+        id:check_ok
         text: 'Check'
         on_press: root.check_input()
+
+<NewContactWhatsapp>:
+    name:name
+    phone:phone
+    orientation:'vertical'
+    spacing:dp(10)
+    MDTextField:
+        id: name
+        size_hint_y:.24
+        size_hint_max_y: 60
+        write_tab: False
+        hint_text: "Name of the contact"
+    MDTextField:
+        id: phone
+        size_hint_y:.24
+        size_hint_max_y: 60
+        write_tab: False
+        hint_text: "Phone number"

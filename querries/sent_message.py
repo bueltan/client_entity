@@ -43,3 +43,4 @@ def sentMessage(**kwargs):
 
     query = gql(string_query)
     result = client.execute(query)
+    return result

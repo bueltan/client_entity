@@ -8,7 +8,5 @@ class build_message():
     @staticmethod
     def exec_query(payload):
         payload['idCode'] = payload.pop('id_code')
-
         print(" in staticmethod ",type(payload), payload)
-
         sentMessage(**payload)

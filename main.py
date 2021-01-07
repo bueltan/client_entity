@@ -6,7 +6,7 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from login_class.login import Login
 from register_class.register import Register
-from entity_class.mainNavigation import mainNavigation
+from main_navigation.mainNavigation import mainNavigation
 
 
 class MainWid(ScreenManager):
@@ -38,7 +38,7 @@ class MainWid(ScreenManager):
 
     def goto_mainNavigation(self, **kwargs):
         self.current = 'mainNavigationScreen'
-        self.mainNavigation.create_subscriptions(**kwargs)
+        self.mainNavigation.create_list_tks(**kwargs)
         #self.mainNavigation.load_drawer()
 
 
@@ -74,5 +74,4 @@ class MainApp(MDApp):
 
 
 if __name__ == "__main__":
-
     MainApp().run()

@@ -3,7 +3,6 @@ import re
 import shutil
 
 
-
 def get_nodes(subscription):
     nodes = {'node2': '@', 'node3': '#', 'node4': '.'}
     for n in nodes:
@@ -90,8 +89,6 @@ def get_height_img(width, height, width_end):
     return width_end, height_end
 
 
-
-
 def save_dir_in_db(dir, table):
     pass
 
@@ -99,3 +96,4 @@ def save_dir_in_db(dir, table):
 def copy(src_file, dest_file):
     shutil.copy2(src_file, dest_file, follow_symlinks=True)
 
+print (get_height_img(150, 95, 50))

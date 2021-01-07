@@ -7,7 +7,6 @@ from kivymd.uix.list import ThreeLineAvatarIconListItem, ILeftBody
 class AsyncImageLeftWidget(ILeftBody, AsyncImage):
     pass
 
-
 class itemTickets(ThreeLineAvatarIconListItem):
     source_img = StringProperty()
     name_icon = StringProperty()

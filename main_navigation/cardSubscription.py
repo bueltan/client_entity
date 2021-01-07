@@ -7,16 +7,15 @@ from kivymd.uix.button import MDIconButton
 from kivymd.uix.card import MDCard
 from database.base import Session
 from database.model_tickets import ModelTickets
-from entity_class.ItemTickets import itemTickets
+from main_navigation.ItemTickets import itemTickets
 from querries.subscriptions_entities import subscriptions
 from querries.tickets_database import load_tk_in_database
 from querries.tickets_payload import sync_tickets
-from entity_class.build_data_tk import build_data_tk
+from main_navigation.build_data_tk import build_data_tk
 
 
 class DataSubscription:
     session = Session()
-
     def __init__(self, *args, **kwargs):
         self.data_tk = []
         self.data_sub = kwargs
@@ -139,5 +138,4 @@ class CardSubscription(MDCard):
     def subscription_nodes(self, **kwargs):
         variables = { 'node_2': kwargs['node2'],
                      'node_3': kwargs['node3'], 'node_4': kwargs['node4']}
-
         subscriptions(self).getTK(variables)

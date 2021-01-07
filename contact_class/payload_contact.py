@@ -1,20 +1,32 @@
 from general_functions.functions import get_nodes
 from connection_endpoint import send_payload
+from login_class.login import Login
 
-
-def to_check(value, resolve, field0, field1):
-    payload = '{"query": "{' + resolve + ' (' + field0 + ':\\"' + value + '\\"){' + field1 + '}}"}'
+def get_profile(resolve, value):
+    payload = '{"query": "{' + resolve + ' (idName:\\"' + value + '\\"){name profileImg}}"}'
     json = send_payload(payload)
-    print("payload:", payload)
-    print("json",json)
-
     if json:
         if 'errors' in json:
             return None
         if json['data'][resolve] == None:
             value = None
         else:
-            value = (json['data'][resolve][field1])
+            value = (json['data'][resolve])
+    else:
+        return False
+    return value
+
+
+def to_check(value, resolve, field0, field1):
+    payload = '{"query": "{' + resolve + ' (' + field0 + ':\\"' + value + '\\"){' + field1 + ', id}}"}'
+    json = send_payload(payload)
+    if json:
+        if 'errors' in json:
+            return None
+        if json['data'][resolve] == None:
+            value = None
+        else:
+            value = (json['data'][resolve])
     else:
         return False
     return value
@@ -61,18 +73,16 @@ def check_node4(**kwargs):
             value = result[0]['node']['id']
     else:
         return False
-
     return value
 
 
 def check_account(id_name):
-    node4 = to_check(id_name, 'checkIdNameAccount', 'idName', 'idName')
-    return node4
-
+    node4_and_id_tk = to_check(id_name, 'checkIdNameAccount', 'idName', 'idName')
+    return node4_and_id_tk
 
 def check_account_for_email(email):
-    node4 = to_check(email, 'checkEmailAccount', 'email', 'idName')
-    return node4
+    node4_and_id_tk = to_check(email, 'checkEmailAccount', 'email', 'idName')
+    return node4_and_id_tk
 
 
 def check_if_exist(data):
@@ -98,5 +108,29 @@ def check_if_exist(data):
             dict_result['node4'] = nodes['node4']
             result = check_node4(**dict_result)
             dict_result['node4'] = result
-
     return dict_result
+
+
+def save_contact(**kwargs):
+    print("welcome to save_contact")
+    data_contact = {'id_account': '', 'id_contact': '', \
+                    'type_contact': '', 'name_contact': '', \
+                    'node2': '', \
+                    'node3': '', 'node4': '', 'phone': ''}
+
+    data_contact['id_account'] = Login.data_login['my_id']
+
+    for key in kwargs:
+        if key == 'name' and kwargs.get(key) != None :
+            data_contact['name_contact'] = kwargs.get(key)
+        if key == 'profileImg' and kwargs.get(key) != None:
+            data_contact['image_contact'] = kwargs.get(key)
+        if key == 'id_tk':
+            data_contact['id_contact'] = kwargs.get(key)
+        if key in data_contact:
+            data_contact[key] = kwargs.get(key)
+        if 'phone' in kwargs:
+            data_contact['type_contact'] = 'wapp'
+        else:
+            data_contact['type_contact'] = 'entity'
+    print(data_contact)

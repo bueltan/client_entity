@@ -14,14 +14,14 @@ class createEntity(MDBoxLayout):
         super(createEntity, self).__init__()
 
         self.orientation = 'vertical'
-        self.toolbar = MDToolbar(title="Entidades")
+        self.toolbar = MDToolbar(title="Entities")
         self.mainBox = MDBoxLayout(size=self.size, orientation='horizontal')
 
         self.boxNewEntity = AnchorLayout(anchor_x='center', anchor_y='top', size_hint=(1, 1), )
         self.boxTextFieldEntity = MDBoxLayout(size_hint=(.7, .3), orientation='vertical')
 
         self.boxSecond = AnchorLayout(anchor_x='center', anchor_y='top', size_hint=(1, 1))
-        self.label = MDLabel(text="Crear una nueva entidad", size_hint_y=None, height=20)
+        self.label = MDLabel(text="create new entity", size_hint_y=None, height=20)
 
         self.nameEntityField = MDTextField()
         self.numberWsapp = MDTextField()
